@@ -20,6 +20,7 @@
                 (:telephone :string ,(s-prefix "schema:telephone"))
                 (:email :string ,(s-prefix "schema:email"))
                 (:content :string ,(s-prefix "ext:content"))
+                (:created :datetime ,(s-prefix "dct:created"))
 
   :has-many `((file :via ,(s-prefix "nmo:hasAttachment")
                     :as "attachments"))
