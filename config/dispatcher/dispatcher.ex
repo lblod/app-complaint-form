@@ -22,8 +22,8 @@ defmodule Dispatcher do
   #   Proxy.forward conn, path, "http://resource/themes/"
   # end
 
-  match "/klachtenformulier/*path" do
-    Proxy.forward conn, path, "http://resource/klachtenformulier/"
+  match "/complaint-forms/*path" do
+    Proxy.forward conn, path, "http://resource/complaint-forms/"
   end
 
   get "/files/:id/download" do

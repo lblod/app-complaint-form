@@ -5,11 +5,10 @@
 ;; docker-compose stop; docker-compose rm; docker-compose up
 ;; after altering this file.
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; KLACHTENFORMULEIR ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; KLACHTENFORMULIEREN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-resource klachtformulier ()
+(define-resource complaint-form ()
   :class (s-prefix "ext:ComplaintForm")
-
   :properties `((:name :string ,(s-prefix "foaf:name"))
                 (:contact-person-name ,(s-prefix "foaf:Person.name"))
                 (:street ,(s-prefix "schema:streetAddress"))
@@ -20,14 +19,11 @@
                 (:telephone :string ,(s-prefix "schema:telephone"))
                 (:email :string ,(s-prefix "schema:email"))
                 (:content :string ,(s-prefix "ext:content"))
-                (:created :datetime ,(s-prefix "dct:created"))
-
+                (:created :datetime ,(s-prefix "dct:created")))
   :has-many `((file :via ,(s-prefix "nmo:hasAttachment")
                     :as "attachments"))
-
-  :resource-base (s-url "http://data.notable.redpencil.io/editor-documents/")
-
-  :on-path "klachtenformulier")
+  :resource-base (s-url "http://data.lblod.info/complaint-forms/")
+  :on-path "complaint-forms")
 
 (define-resource file ()
   :class (s-prefix "nfo:FileDataObject")
