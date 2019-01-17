@@ -1,5 +1,13 @@
 version: '3.4'
 services:
+  complaint-form-email-converter-service:
+    image: semtech/mu-javascript-template:1.3.2
+    ports:
+      - "100:80"
+    links:
+      - database:database
+    volumes:
+      - /path/to/folder/complaint-form-email-converter-service/:/app/
   identifier:
     ports:
       - "80:80"
