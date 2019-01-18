@@ -11,8 +11,7 @@ services:
     image: semtech/mu-identifier:1.5.0
     links:
       - dispatcher:dispatcher
-    ports:
-      - "80:80"
+    restart: always
     labels:
       - "logging=true"
     logging: *default-logging
@@ -22,6 +21,7 @@ services:
       - resource:resource
     volumes:
       - ./config/dispatcher:/config
+    restart: always
     labels:
       - "logging=true"
     logging: *default-logging
@@ -30,10 +30,9 @@ services:
     environment:
       SPARQL_UPDATE: "true"
       DEFAULT_GRAPH: "http://mu.semte.ch/application"
-    ports:
-      - "8890:8890"
     volumes:
       - ./data/db:/data
+    restart: always
     labels:
       - "logging=true"
     logging: *default-logging
@@ -45,9 +44,9 @@ services:
       MU_SPARQL_TIMEOUT: '300'
     volumes:
       - ./config/migrations:/data/migrations
+    restart: always
     labels:
       - "logging=true"
-    restart: always
     logging: *default-logging
   resource:
     image: semtech/mu-cl-resources:1.17.1
@@ -55,6 +54,7 @@ services:
       - database:database
     volumes:
       - ./config/resources:/config
+    restart: always
     labels:
       - "logging=true"
     logging: *default-logging
