@@ -8,6 +8,7 @@ services:
       - database:database
     volumes:
       - /path/to/folder/complaint-form-email-converter-service/:/app/
+      - /path/to/folder/app-complaint-form/app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
     image: semtech/mu-javascript-template
     ports:
