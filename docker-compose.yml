@@ -78,6 +78,8 @@ services:
     logging: *default-logging
   complaint-form-email-converter-service:
     image: lblod/complaint-form-email-converter-service:0.1.0
+    volumes:
+      - ./app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
     image: lblod/berichtencentrum-deliver-email-service:0.1.0
     environment:
