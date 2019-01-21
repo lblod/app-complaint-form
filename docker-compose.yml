@@ -84,7 +84,7 @@ services:
     image: lblod/berichtencentrum-deliver-email-service:0.1.0
     environment:
       SMTP_OR_REST: "smtp"
-      GMAIL_OR_SERVER: "gmail"
+      WELL_KNOWN_SERVICE_OR_SERVER: "gmail"
       EMAIL_ADDRESS: "example@gmail.com"
       EMAIL_PASSWORD: "secret"
       FROM_NAME: "Agentschap Binnenlands Bestuur Vlaanderen"
