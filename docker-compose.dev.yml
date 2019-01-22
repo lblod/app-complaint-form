@@ -8,6 +8,7 @@ services:
       - database:database
     volumes:
       - /path/to/folder/complaint-form-email-converter-service/:/app/
+      - ./app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
     image: semtech/mu-javascript-template
     ports:
@@ -16,9 +17,9 @@ services:
     environment:
       NODE_ENV: "development"
       SMTP_OR_REST: "smtp"
-      GMAIL_OR_SERVER: "gmail"
-      EMAIL_ADDRESS: "email@address.com"
-      EMAIL_PASSWORD: "password"
+      WELL_KNOWN_SERVICE_OR_SERVER: "SendGrid"
+      EMAIL_ADDRESS: "apikey"
+      EMAIL_PASSWORD: "theAppKey"
       FROM_NAME: "Agentschap Binnenlands Bestuur Vlaanderen"
     links:
       - database:database
