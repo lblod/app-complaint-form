@@ -41,7 +41,7 @@ INSERT DATA {
     <http://data.lblod.info/id/mail-folders/6> a <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder>;
        <http://mu.semte.ch/vocabularies/core/uuid> "26b7e651-3173-4a1e-92c7-03a8e97b7667";
        <http://www.semanticdesktop.org/ontologies/2007/03/22/nie#title> "failbox";
-       <http://www.semanticdesktop.org/ontologies/2007/03/22/nie#description> "Your email that failed while sending goes here.".        
+       <http://www.semanticdesktop.org/ontologies/2007/03/22/nie#description> "Your email that failed while sending goes here.".
 
     <http://data.lblod.info/id/emails/1> a <http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#Email>;
        <http://mu.semte.ch/vocabularies/core/uuid> "99d1d631-0d58-4d84-a189-38b60ef8b6fd";
