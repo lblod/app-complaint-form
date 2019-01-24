@@ -48,6 +48,14 @@ This repository harvest two setups.  The base of these setups resides in the sta
 
   Once the migrations have ran, you can start developing your application by connecting the ember frontend application to this backend.  See <https://github.com/lblod/frontend-complaint-form> for more information on development with the ember application.
 
+#### Generating a user and password to access files
+
+  In order to use the basic authentication to protect your uploaded files, you will need to generate a username and a password.
+
+  ```
+  htpasswd -c ./config/basic-auth/.htpasswd username
+  ```
+
 ### Upgrading your setup
 
   Once installed, you may desire to upgrade your current setup to follow development of the main stack.  The following example describes how to do this easily for both the demo setup, as well as for the dev setup.
