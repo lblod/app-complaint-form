@@ -62,7 +62,7 @@ const senderEmailPlainTextContent = function(form, attachments) {
 
   ${attachmentsPlainText(attachments)}
 
-  ABB zal binnen een termijn van 10 werkdagen antwoorden. Uw gegevens worden niet gedeeld met derden, en worden in alle discretie verwerkt om deze klacht aan te pakken.
+  Het Agentschap Binnenland Bestuur zal u binnen een termijn van 10 werkdagen een eerste communicatie sturen. Meer info over de verwerking van uw gegevens leest u hier: binnenland.vlaanderen.be/privacyverklaring-abb
   Hoogachtend
   ABB Vlaanderen
   `;
@@ -94,7 +94,7 @@ const senderEmailHtmlContent = function(form, attachments) {
       ${attachmentsHtml(attachments)}
     </ul>
   </div><br>
-  <p>ABB zal binnen een termijn van 10 werkdagen antwoorden. Uw gegevens worden niet gedeeld met derden, en worden in alle discretie verwerkt om deze klacht aan te pakken.</p><br>
+  <p>Het Agentschap Binnenland Bestuur zal u binnen een termijn van 10 werkdagen een eerste communicatie sturen. Meer info over de verwerking van uw gegevens leest u hier: <a href="binnenland.vlaanderen.be/privacyverklaring-abb" target="_blank">binnenland.vlaanderen.be/privacyverklaring-abb</a></p><br>
   <p>Hoogachtend</p>
   <p>ABB Vlaanderen</p>
   `;
