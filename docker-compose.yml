@@ -77,7 +77,7 @@ services:
       - "logging=true"
     logging: *default-logging
   complaint-form-email-converter-service:
-    image: lblod/complaint-form-email-converter-service:0.2.0
+    image: lblod/complaint-form-email-converter-service:0.3.0
     volumes:
       - ./app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
