@@ -81,7 +81,7 @@ services:
     volumes:
       - ./app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
-    image: lblod/berichtencentrum-deliver-email-service:0.2.0
+    image: lblod/berichtencentrum-deliver-email-service:0.2.1
     environment:
       SMTP_OR_REST: "smtp"
       WELL_KNOWN_SERVICE_OR_SERVER: "SendGrid"
