@@ -43,8 +43,8 @@ const senderEmailPlainTextContent = function(form, attachments) {
   Geachte ${senderName(form)}
   Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:
 
-  Beveiligd verzonden: ${senderName(form)}, ${moment(form.created).format("DD/MM/YY HH:mm")}
-  Ontvangen: Agentschap Binnenlands Bestuur, ${moment().format("DD/MM/YY HH:mm")}
+  Beveiligd verzonden: ${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}
+  Ontvangen: Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}
   Naam: ${senderName(form)}
   Contactpersoon indien vereniging: ${form.contactPersonName}
   Straat: ${form.street}
@@ -73,8 +73,8 @@ const senderEmailHtmlContent = function(form, attachments) {
   <p>Geachte ${senderName(form)}</p><br>
   <p>Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:</p><br>
   <div style="margin-left: 40px;">
-    <p><span style="font-weight:bold;">Beveiligd verzonden:&nbsp;</span><span>${senderName(form)}, ${moment(form.created).format("DD/MM/YY HH:mm")}</span></p>
-    <p><span style="font-weight:bold;">Ontvangen:&nbsp;</span><span>Agentschap Binnenlands Bestuur, ${moment().format("DD/MM/YY HH:mm")}</span></p><br><br>
+    <p><span style="font-weight:bold;">Beveiligd verzonden:&nbsp;</span><span>${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p>
+    <p><span style="font-weight:bold;">Ontvangen:&nbsp;</span><span>Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p><br><br>
     <p><span style="font-weight:bold;">Naam:&nbsp;</span><span>${senderName(form)}</span></p>
     <p><span style="font-weight:bold;">Contactpersoon indien vereniging:&nbsp;</span><span>${form.contactPersonName}</span></p><br>
     <p><span style="font-weight:bold;">Straat:&nbsp;</span><span>${form.street}</span></p>

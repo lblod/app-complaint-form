@@ -47,8 +47,8 @@ const receiverEmailPlainTextContent = function(form, attachments) {
     Geachte
     Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager
 
-      Beveiligd verzonden: ${senderName(form)}, ${moment(form.created).format("DD/MM/YY HH:mm")}
-      Ontvangen: Agentschap Binnenlands Bestuur, ${moment().format("DD/MM/YY HH:mm")}
+      Beveiligd verzonden: ${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}
+      Ontvangen: Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}
       Naam: ${form.name}
       Contactpersoon indien vereniging: ${form.contactPersonName}
       Straat: ${form.street}
@@ -77,8 +77,8 @@ const receiverEmailHtmlContent = function(form, attachments) {
     <p>Geachte</p><br>
     <p>Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager</p><br>
     <div style="margin-left: 40px;">
-      <p><span style="font-weight:bold;">Beveiligd verzonden:&nbsp;</span><span>${senderName(form)}, ${moment(form.created).format("DD/MM/YY HH:mm")}</span></p>
-      <p><span style="font-weight:bold;">Ontvangen:&nbsp;</span><span>Agentschap Binnenlands Bestuur, ${moment().format("DD/MM/YY HH:mm")}</span></p><br><br>
+      <p><span style="font-weight:bold;">Beveiligd verzonden:&nbsp;</span><span>${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p>
+      <p><span style="font-weight:bold;">Ontvangen:&nbsp;</span><span>Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p><br><br>
       <p><span style="font-weight:bold;">Naam:&nbsp;</span><span>${form.name}</span></p>
       <p><span style="font-weight:bold;">Contactpersoon indien vereniging:&nbsp;</span><span>${form.contactPersonName}</span></p><br>
       <p><span style="font-weight:bold;">Straat:&nbsp;</span><span>${form.street}</span></p>
