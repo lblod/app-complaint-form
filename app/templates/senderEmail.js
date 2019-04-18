@@ -62,7 +62,9 @@ const senderEmailPlainTextContent = function(form, attachments) {
 
   ${attachmentsPlainText(attachments)}
 
-  Het Agentschap Binnenland Bestuur zal u binnen een termijn van 10 werkdagen een eerste communicatie sturen. Meer info over de verwerking van uw gegevens leest u hier: binnenland.vlaanderen.be/privacyverklaring-abb
+  Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer).
+  Info over de verwerking van uw gegevens leest u hier: binnenland.vlaanderen.be/privacyverklaring-abb.
+
   Hoogachtend
   ABB Vlaanderen
   `;
@@ -94,7 +96,11 @@ const senderEmailHtmlContent = function(form, attachments) {
       ${attachmentsHtml(attachments)}
     </ul>
   </div><br>
-  <p>Het Agentschap Binnenland Bestuur zal u binnen een termijn van 10 werkdagen een eerste communicatie sturen. Meer info over de verwerking van uw gegevens leest u hier: <a href="binnenland.vlaanderen.be/privacyverklaring-abb" target="_blank">binnenland.vlaanderen.be/privacyverklaring-abb</a></p><br>
+  <p>
+    Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (<a href="https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer" target="_blank">https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer</a>).
+    <br>
+    Info over de verwerking van uw gegevens leest u hier: <a href="binnenland.vlaanderen.be/privacyverklaring-abb" target="_blank">binnenland.vlaanderen.be/privacyverklaring-abb</a>.
+  </p>
   <p>Hoogachtend</p>
   <p>ABB Vlaanderen</p>
   `;
