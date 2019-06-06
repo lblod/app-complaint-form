@@ -88,7 +88,7 @@ const senderEmailHtmlContent = function(form, attachments) {
     <p><span style="font-weight:bold;">Mailadres:&nbsp;</span><span>${form.senderEmail}</span></p><br>
     <p style="font-weight:bold;">Omschrijving klacht:</p>
     <div style="margin-left: 40px;">
-      ${form.content}
+      ${form.content.replace(/\n/g, "<br />")}
     </div><br>
     <p style="font-weight:bold;">Bijlagen</p>
 
