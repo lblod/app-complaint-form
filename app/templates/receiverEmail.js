@@ -66,7 +66,7 @@ const receiverEmailPlainTextContent = function(form, attachments) {
 
       ${attachmentsPlainText(attachments)}
 
-    De afzender heeft een bevestigingsmail gekregen, waarin vermeld staat dat ABB binnen een termijn van 10 werkdagen zal antwoorden.
+    De afzender heeft een mail gekregen waarin werd aangegeven dat zijn klacht succesvol werd ingediend en hij nog verder geïnformeerd zal worden over het gevolg dat aan de klacht wordt gegeven.
     Hoogachtend
     ABB Vlaanderen
     `;
@@ -98,7 +98,7 @@ const receiverEmailHtmlContent = function(form, attachments) {
         ${attachmentsHtml(attachments)}
       </ul>
     </div><br>
-    <p>De afzender heeft een bevestigingsmail gekregen, waarin vermeld staat dat ABB binnen een termijn van 10 werkdagen zal antwoorden.</p><br>
+    <p>De afzender heeft een mail gekregen waarin werd aangegeven dat zijn klacht succesvol werd ingediend en hij nog verder geïnformeerd zal worden over het gevolg dat aan de klacht wordt gegeven.</p><br>
     <p>Hoogachtend</p>
     <p>ABB Vlaanderen</p>
     `;
