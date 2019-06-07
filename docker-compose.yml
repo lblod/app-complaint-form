@@ -80,6 +80,10 @@ services:
     image: lblod/complaint-form-email-converter-service:0.3.0
     volumes:
       - ./app/templates/:/app/templates/
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
   berichtencentrum-deliver-email-service:
     image: lblod/berichtencentrum-deliver-email-service:0.3.0
     environment:
@@ -88,3 +92,7 @@ services:
       EMAIL_ADDRESS: "apikey"
       EMAIL_PASSWORD: "password"
       FROM_NAME: "Agentschap Binnenlands Bestuur Vlaanderen"
+    restart: always
+    labels:
+      - "logging=true"
+    logging: *default-logging
