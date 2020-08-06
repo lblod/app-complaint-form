@@ -4,8 +4,6 @@ services:
     image: semtech/mu-javascript-template:1.3.2
     ports:
       - "100:80"
-    links:
-      - database:database
     volumes:
       - ./app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
@@ -13,11 +11,9 @@ services:
     ports:
       - "8888:80"
       - "9229:9229"
-    links:
-      - database:database
   identifier:
     ports:
       - "80:80"
-  database:
+  virtuoso:
     ports:
       - "8890:8890"
