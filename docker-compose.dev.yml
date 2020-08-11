@@ -2,18 +2,13 @@ version: '3.4'
 services:
   complaint-form-email-converter-service:
     image: semtech/mu-javascript-template:1.3.2
-    ports:
-      - "100:80"
     volumes:
       - ./app/templates/:/app/templates/
   berichtencentrum-deliver-email-service:
     image: semtech/mu-javascript-template
-    ports:
-      - "8888:80"
-      - "9229:9229"
   identifier:
     ports:
       - "80:80"
-  virtuoso:
+  database:
     ports:
       - "8890:8890"
