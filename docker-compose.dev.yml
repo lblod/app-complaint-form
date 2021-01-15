@@ -1,11 +1,5 @@
 version: '3.4'
 services:
-  complaint-form-email-converter-service:
-    image: semtech/mu-javascript-template:1.3.2
-    volumes:
-      - ./app/templates/:/app/templates/
-  berichtencentrum-deliver-email-service:
-    image: semtech/mu-javascript-template
   identifier:
     ports:
       - "80:80"
