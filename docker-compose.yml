@@ -83,7 +83,7 @@ services:
     restart: always
     logging: *default-logging
   complaint-form-warning:
-    image: lblod/complaint-form-warning-service:0.0.2
+    image: lblod/complaint-form-warning-service:0.0.3
     labels:
       - "logging=true"
     restart: always
