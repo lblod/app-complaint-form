@@ -1,8 +1,26 @@
 version: '3.4'
 services:
+  frontend:
+    restart: "no"
   identifier:
     ports:
       - "80:80"
+    restart: "no"
+  dispatcher:
+    restart: "no"
   database:
     ports:
       - "8890:8890"
+    restart: "no"
+  migrations:
+    restart: "no"
+  resource:
+    restart: "no"
+  file:
+    restart: "no"
+  complaint-form-email-converter-service:
+    restart: "no"
+  deliver-email-service:
+    restart: "no"
+  complaint-form-warning:
+    restart: "no"
