@@ -41,6 +41,7 @@ services:
       DEFAULT_GRAPH: "http://mu.semte.ch/application"
     volumes:
       - ./data/db:/data
+      - ./config/virtuoso/virtuoso.ini:/data/virtuoso.ini
     labels:
       - "logging=true"
     restart: always
@@ -78,7 +79,7 @@ services:
   complaint-form-email-converter-service:
     image: lblod/complaint-form-email-converter-service:0.4.0
     volumes:
-      - ./app/templates/:/app/templates/
+      - ./config/complaint-form-email-converter/templates:/app/templates
     labels:
       - "logging=true"
     restart: always
