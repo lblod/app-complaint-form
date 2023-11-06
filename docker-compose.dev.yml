@@ -36,3 +36,12 @@ services:
   complaint-form-warning:
     restart: "no"
 
+  yasgui:
+    image: erikap/yasgui:latest
+    restart: "no"
+    ports:
+      - "89:80"
+    environment:
+      DEFAULT_SPARQL_ENDPOINT: "http://localhost:8890/sparql/"
+      ENABLE_ENDPOINT_SELECTOR: "true"
+
