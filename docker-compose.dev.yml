@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 services:
 
@@ -32,6 +32,16 @@ services:
 
   deliver-email-service:
     restart: "no"
+    environment:
+      MAILBOX_URI: 'http://data.lblod.info/id/mailboxes/1'
+      WELL_KNOWN_SERVICE: "test"
+      SECURE_CONNECTION: "true"
+      EMAIL_ADDRESS: "mymail@test.com"
+      EMAIL_PASSWORD: "myemailpassword"
+      FROM_NAME: "Testmailer"
+      NODE_ENV: "development"
+    volumes:
+      - ./data/files:/share
 
   complaint-form-warning:
     restart: "no"
