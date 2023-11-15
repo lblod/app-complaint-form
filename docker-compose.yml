@@ -123,3 +123,13 @@ services:
     restart: always
     logging: *default-logging
 
+  error-alert:
+    image: lblod/loket-error-alert-service:1.0.0
+    #NOTE: put something like the following in the overrides
+    #environment:
+    #  EMAIL_FROM: person@mail.com
+    #  EMAIL_TO: person@mail.com
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
