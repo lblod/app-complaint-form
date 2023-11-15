@@ -44,8 +44,20 @@ defmodule Dispatcher do
 # Frontend
 ###############################################################################
 
-  match "/assets/*path", %{ accept: %{ any: true } } do
+  match "/index.html", %{ accept: %{ html: true } } do
+    forward conn, [], "http://frontend/index.html"
+  end
+
+  get "/assets/*path",  %{ accept: %{ any: true } } do
     forward conn, path, "http://frontend/assets/"
+  end
+
+  get "/@appuniversum/*path", %{ accept: %{ any: true } } do
+    forward conn, path, "http://frontend/@appuniversum/"
+  end
+
+  match "/favicon.ico", %{ accept: %{ any: true } } do
+    send_resp( conn, 404, "" )
   end
 
   match "/*_path", %{ accept: %{ html: true } } do
