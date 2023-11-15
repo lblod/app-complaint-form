@@ -31,7 +31,7 @@ defmodule Dispatcher do
   end
 
   # Endpoint required to upload file content.
-  post "/file-service/files/*path", %{ accept: %{ any: true } } do
+  post "/files/*path", %{ accept: %{ any: true } } do
     forward conn, path, "http://file/files/"
   end
 
