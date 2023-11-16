@@ -27,10 +27,10 @@ services:
   file:
     restart: "no"
 
-  complaint-form-email-converter-service:
+  complaint-form-email-converter:
     restart: "no"
 
-  deliver-email-service:
+  deliver-email:
     restart: "no"
     environment:
       MAILBOX_URI: 'http://data.lblod.info/id/mailboxes/1'
