@@ -1,113 +1,140 @@
-import moment from 'moment';
+import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import * as uti from './utils';
 
-const senderName = function(form) {
-  let senderName = form.name
-  if(form.contactPersonName != '-') {
-    senderName = form.name;
-  }
-  return senderName;
-};
-
-const senderEmailSubject = function() {
+export function senderEmailSubject() {
   return 'Uw klacht over de werking van een lokaal bestuur.';
-};
+}
 
-const humanReadableSize = function(size) {
-  const bytes = size;
-  const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes == 0) return '0 byte';
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-  return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-};
+function attachmentsPlainText(attachments) {
+  return attachments
+    .map((a) => `${a.filename} (${uti.humanReadableSize(a.size)})`)
+    .join('\n\t');
+}
 
-const attachmentsPlainText = function(attachments) {
-  var attachmentsPlainText = '';
-  attachments.map((attachment) => {
-    const formattedAttachment = `${attachment.filename} (${humanReadableSize(attachment.size)})`;
-    attachmentsPlainText += `${formattedAttachment}\n\t`;
-  });
-  return attachmentsPlainText;
-};
+function attachmentsHtml(attachments) {
+  return attachments
+    .map((a) => `<li>${a.filename} (${uti.humanReadableSize(a.size)})</li>`)
+    .join('\n\t');
+}
 
-const attachmentsHtml = function(attachments) {
-  var attachmentsHtml = '';
-  attachments.map((attachment) => {
-    const formattedAttachment = `${attachment.filename} (${humanReadableSize(attachment.size)})`;
-    attachmentsHtml += `<li>${formattedAttachment}</li>\n\t`;
-  });
-  return attachmentsHtml;
-};
+export function senderEmailPlainTextContent(form, attachments) {
+  const verzondenFrom = uti.senderName(form);
+  const verzondenAt = formatInTimeZone(
+    form.created,
+    'Europe/Brussels',
+    'dd/MM/yyyy HH:mm',
+  );
+  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  return `Geachte ${verzondenFrom}
+Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:
 
-const senderEmailPlainTextContent = function(form, attachments) {
+Beveiligd verzonden: ${verzondenFrom}, ${verzondenAt}
+Ontvangen: Agentschap Binnenlands Bestuur, ${ontvangenAt}
+Naam: ${verzondenFrom}
+Contactpersoon indien vereniging: ${form.contactPersonName}
+Straat: ${form.street}
+Huisnummer: ${form.houseNumber}
+Toevoeging: ${form.addressComplement}
+Postcode: ${form.postalCode}
+Gemeente of Stad: ${form.locality}
+Telefoonnummer: ${form.telephone}
+Mailadres: ${form.senderEmail}
+
+Omschrijving klacht:
+${form.content}
+
+Bijlagen
+
+${attachmentsPlainText(attachments)}
+
+Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer).
+Info over de verwerking van uw gegevens leest u hier: binnenland.vlaanderen.be/privacyverklaring-abb.
+
+Hoogachtend
+ABB Vlaanderen`;
+}
+
+export function senderEmailHtmlContent(form, attachments) {
+  const verzondenFrom = uti.senderName(form);
+  const verzondenAt = formatInTimeZone(
+    form.created,
+    'Europe/Brussels',
+    'dd/MM/yyyy HH:mm',
+  );
+  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
   return `
-  Geachte ${senderName(form)}
-  Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:
-
-  Beveiligd verzonden: ${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}
-  Ontvangen: Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}
-  Naam: ${senderName(form)}
-  Contactpersoon indien vereniging: ${form.contactPersonName}
-  Straat: ${form.street}
-  Huisnummer: ${form.houseNumber}
-  Toevoeging: ${form.addressComplement}
-  Postcode: ${form.postalCode}
-  Gemeente of Stad: ${form.locality}
-  Telefoonnummer: ${form.telephone}
-  Mailadres: ${form.senderEmail}
-
-  Omschrijving klacht:
-  ${form.content}
-
-  Bijlagen
-
-  ${attachmentsPlainText(attachments)}
-
-  Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer).
-  Info over de verwerking van uw gegevens leest u hier: binnenland.vlaanderen.be/privacyverklaring-abb.
-
-  Hoogachtend
-  ABB Vlaanderen
-  `;
-};
-
-const senderEmailHtmlContent = function(form, attachments) {
-  return `
-  <p>Geachte ${senderName(form)}</p><br>
-  <p>Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:</p><br>
-  <div style="margin-left: 40px;">
-    <p><span style="font-weight:bold;">Beveiligd verzonden:&nbsp;</span><span>${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p>
-    <p><span style="font-weight:bold;">Ontvangen:&nbsp;</span><span>Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p><br><br>
-    <p><span style="font-weight:bold;">Naam:&nbsp;</span><span>${senderName(form)}</span></p>
-    <p><span style="font-weight:bold;">Contactpersoon indien vereniging:&nbsp;</span><span>${form.contactPersonName}</span></p><br>
-    <p><span style="font-weight:bold;">Straat:&nbsp;</span><span>${form.street}</span></p>
-    <p><span style="font-weight:bold;">Huisnummer:&nbsp;</span><span>${form.houseNumber}</span></p>
-    <p><span style="font-weight:bold;">Toevoeging:&nbsp;</span><span>${form.addressComplement}</span></p>
-    <p><span style="font-weight:bold;">Postcode:&nbsp;</span><span>${form.postalCode}</span></p>
-    <p><span style="font-weight:bold;">Gemeente of Stad:&nbsp;</span><span>${form.locality}</span></p><br>
-    <p><span style="font-weight:bold;">Telefoonnummer:&nbsp;</span><span>${form.telephone}</span></p>
-    <p><span style="font-weight:bold;">Mailadres:&nbsp;</span><span>${form.senderEmail}</span></p><br>
-    <p style="font-weight:bold;">Omschrijving klacht:</p>
-    <div style="margin-left: 40px;">
-      ${form.content.replace(/\n/g, "<br />")}
-    </div><br>
-    <p style="font-weight:bold;">Bijlagen</p>
-
-    <ul>
-      ${attachmentsHtml(attachments)}
-    </ul>
-  </div><br>
+<p>Geachte ${verzondenFrom}</p>
+<br>
+<p>Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:</p>
+<br>
+<div style="margin-left: 40px;">
   <p>
-    Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (<a href="https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer" target="_blank">https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer</a>).
-    <br>
-    Info over de verwerking van uw gegevens leest u hier: <a href="binnenland.vlaanderen.be/privacyverklaring-abb" target="_blank">binnenland.vlaanderen.be/privacyverklaring-abb</a>.
+    <span style="font-weight:bold;">Beveiligd verzonden:</span>
+    <span>${verzondenFrom}, ${verzondenAt}</span>
   </p>
-  <p>Hoogachtend</p>
-  <p>ABB Vlaanderen</p>
-  `;
-};
-
-export {
-  senderEmailSubject,
-  senderEmailPlainTextContent,
-  senderEmailHtmlContent
-};
+  <p>
+    <span style="font-weight:bold;">Ontvangen:</span>
+    <span>Agentschap Binnenlands Bestuur, ${ontvangenAt}</span>
+  </p>
+  <br>
+  <br>
+  <p>
+    <span style="font-weight:bold;">Naam:</span>
+    <span>${verzondenFrom}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Contactpersoon indien vereniging:</span>
+    <span>${form.contactPersonName}</span>
+  </p>
+  <br>
+  <p>
+    <span style="font-weight:bold;">Straat:</span>
+    <span>${form.street}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Huisnummer:</span>
+    <span>${form.houseNumber}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Toevoeging:</span>
+    <span>${form.addressComplement}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Postcode:</span>
+    <span>${form.postalCode}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Gemeente of Stad:</span>
+    <span>${form.locality}</span>
+  </p>
+  <br>
+  <p>
+    <span style="font-weight:bold;">Telefoonnummer:</span>
+    <span>${form.telephone}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Mailadres:</span>
+    <span>${form.senderEmail}</span>\
+  </p>
+  <br>
+  <p style="font-weight:bold;">Omschrijving klacht:</p>
+  <div style="margin-left: 40px;">
+    ${form.content.replace(/\n/g, '<br />')}
+  </div>
+  <br>
+  <p style="font-weight:bold;">Bijlagen</p>
+  <ul>
+    ${attachmentsHtml(attachments)}
+  </ul>
+</div>
+<br>
+<p>
+  Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (<a href="https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer" target="_blank">https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer</a>).
+  <br>
+  Info over de verwerking van uw gegevens leest u hier: <a href="binnenland.vlaanderen.be/privacyverklaring-abb" target="_blank">binnenland.vlaanderen.be/privacyverklaring-abb</a>.
+</p>
+<br>
+<p>Hoogachtend</p>
+<p>ABB Vlaanderen</p>`;
+}
