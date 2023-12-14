@@ -63,8 +63,7 @@ export function senderEmailHtmlContent(form, attachments) {
     'dd/MM/yyyy HH:mm',
   );
   const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
-  return `
-<p>Geachte ${verzondenFrom}</p>
+  return `<p>Geachte ${verzondenFrom}</p>
 <br>
 <p>Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:</p>
 <br>
