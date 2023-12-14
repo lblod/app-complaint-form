@@ -118,6 +118,10 @@ services:
 
   complaint-form-warning:
     image: lblod/complaint-form-warning-service:0.0.3
+    #NOTE: put something like the following in the overrides
+    #environment:
+    #  EMAIL_FROM: person@mail.com
+    #  EMAIL_TO: person@mail.com
     labels:
       - "logging=true"
     restart: always
