@@ -5,7 +5,9 @@ import * as uti from './utils';
 
 const fileDownloadPrefix = envvar
   .get('FILE_DOWNLOAD_PREFIX')
-  .default('localhost');
+  .required()
+  .example('http://localhost/')
+  .asUrlString();
 
 export function receiverEmailSubject(form) {
   return `Klacht van ${uti.senderName(
