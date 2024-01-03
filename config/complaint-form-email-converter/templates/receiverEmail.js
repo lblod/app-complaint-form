@@ -18,7 +18,7 @@ export function receiverEmailSubject(form) {
 function attachmentsPlainText(attachments) {
   return attachments
     .map((a) => {
-      const downloadLink = `${fileDownloadPrefix}/files/${a.uuid}/download?name=${a.filename}`;
+      const downloadLink = `${fileDownloadPrefix}files/${a.uuid}/download?name=${a.filename}`;
       const size = uti.humanReadableSize(a.size);
       return `${a.filename} (${size}) (${downloadLink})`;
     })
@@ -28,7 +28,7 @@ function attachmentsPlainText(attachments) {
 function attachmentsHtml(attachments) {
   return attachments
     .map((a) => {
-      const downloadLink = `${fileDownloadPrefix}/files/${a.uuid}/download?name=${a.filename}`;
+      const downloadLink = `${fileDownloadPrefix}files/${a.uuid}/download?name=${a.filename}`;
       const size = uti.humanReadableSize(a.size);
       const formattedAttachment = `${a.filename} (${size})`;
       return `<li><a href="${downloadLink}" target="_blank">${formattedAttachment}</a></li>`;
