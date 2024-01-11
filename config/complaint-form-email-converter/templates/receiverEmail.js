@@ -1,111 +1,150 @@
-import moment from 'moment';
+import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import envvar from 'env-var';
+import * as uti from './utils';
 
-const fileDownloadPrefix = process.env.FILE_DOWNLOAD_PREFIX || 'localhost';
+const fileDownloadPrefix = envvar
+  .get('FILE_DOWNLOAD_PREFIX')
+  .required()
+  .example('http://localhost/')
+  .asUrlString();
 
-const senderName = function(form) {
-  let senderName = form.name
-  if(form.contactPersonName != '-') {
-    senderName = form.name;
-  }
-  return senderName;
-};
+export function receiverEmailSubject(form) {
+  return `Klacht van ${uti.senderName(
+    form,
+  )} over de werking van een lokaal bestuur`;
+}
 
-const receiverEmailSubject = function(form) {
-  return `Klacht van ${senderName(form)} over de werking van een lokaal bestuur`;
-};
+function attachmentsPlainText(attachments) {
+  return attachments
+    .map((a) => {
+      const downloadLink = `${fileDownloadPrefix}files/${a.uuid}/download?name=${a.filename}`;
+      const size = uti.humanReadableSize(a.size);
+      return `${a.filename} (${size}) (${downloadLink})`;
+    })
+    .join('\n\t');
+}
 
-const humanReadableSize = function(size) {
-  const bytes = size;
-  const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes == 0) return '0 byte';
-  const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-  return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-};
+function attachmentsHtml(attachments) {
+  return attachments
+    .map((a) => {
+      const downloadLink = `${fileDownloadPrefix}files/${a.uuid}/download?name=${a.filename}`;
+      const size = uti.humanReadableSize(a.size);
+      const formattedAttachment = `${a.filename} (${size})`;
+      return `<li><a href="${downloadLink}" target="_blank">${formattedAttachment}</a></li>`;
+    })
+    .join('\n\t');
+}
 
-const attachmentsPlainText = function(attachments) {
-  var attachmentsPlainText = '';
-  attachments.map((attachment) => {
-    const downloadLink = `${fileDownloadPrefix}/files/${attachment.uuid}/download?name=${attachment.filename}`;
-    const formattedAttachment = `${attachment.filename} (${humanReadableSize(attachment.size)})`;
-    attachmentsPlainText += `${formattedAttachment} (${downloadLink})\n\t`;
-  });
-  return attachmentsPlainText;
-};
+export function receiverEmailPlainTextContent(form, attachments) {
+  const verzondenFrom = uti.senderName(form);
+  const verzondenAt = formatInTimeZone(
+    form.created,
+    'Europe/Brussels',
+    'dd/MM/yyyy HH:mm',
+  );
+  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  return `Geachte
+Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager
 
-const attachmentsHtml = function(attachments) {
-  var attachmentsHtml = '';
-  attachments.map((attachment) => {
-    const downloadLink = `${fileDownloadPrefix}/files/${attachment.uuid}/download?name=${attachment.filename}`;
-    const formattedAttachment = `${attachment.filename} (${humanReadableSize(attachment.size)})`;
-    attachmentsHtml += `<li><a href="${downloadLink}" target="_blank">${formattedAttachment}</a></li>\n\t`;
-  });
-  return attachmentsHtml;
-};
+  Beveiligd verzonden: ${verzondenFrom}, ${verzondenAt}
+  Ontvangen: Agentschap Binnenlands Bestuur, ${ontvangenAt}
+  Naam: ${form.name}
+  Contactpersoon indien vereniging: ${form.contactPersonName}
+  Straat: ${form.street}
+  Huisnummer: ${form.houseNumber}
+  Toevoeging: ${form.addressComplement}
+  Postcode: ${form.postalCode}
+  Gemeente of Stad: ${form.locality}
+  Telefoonnummer: ${form.telephone}
+  Mailadres: ${form.senderEmail}
+  Omschrijving klacht:
 
-const receiverEmailPlainTextContent = function(form, attachments) {
-  return `
-    Geachte
-    Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager
+    ${form.content}
 
-      Beveiligd verzonden: ${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}
-      Ontvangen: Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}
-      Naam: ${form.name}
-      Contactpersoon indien vereniging: ${form.contactPersonName}
-      Straat: ${form.street}
-      Huisnummer: ${form.houseNumber}
-      Toevoeging: ${form.addressComplement}
-      Postcode: ${form.postalCode}
-      Gemeente of Stad: ${form.locality}
-      Telefoonnummer: ${form.telephone}
-      Mailadres: ${form.senderEmail}
-      Omschrijving klacht:
+  Bijlagen
 
-        ${form.content}
+  ${attachmentsPlainText(attachments)}
 
-      Bijlagen
+De afzender heeft een mail gekregen waarin werd aangegeven dat zijn klacht succesvol werd ingediend en hij nog verder geïnformeerd zal worden over het gevolg dat aan de klacht wordt gegeven.
+Hoogachtend
+ABB Vlaanderen`;
+}
 
-      ${attachmentsPlainText(attachments)}
-
-    De afzender heeft een mail gekregen waarin werd aangegeven dat zijn klacht succesvol werd ingediend en hij nog verder geïnformeerd zal worden over het gevolg dat aan de klacht wordt gegeven.
-    Hoogachtend
-    ABB Vlaanderen
-    `;
-};
-
-const receiverEmailHtmlContent = function(form, attachments) {
-  return `
-    <p>Geachte</p><br>
-    <p>Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager</p><br>
-    <div style="margin-left: 40px;">
-      <p><span style="font-weight:bold;">Beveiligd verzonden:&nbsp;</span><span>${senderName(form)}, ${moment.tz(form.created, "Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p>
-      <p><span style="font-weight:bold;">Ontvangen:&nbsp;</span><span>Agentschap Binnenlands Bestuur, ${moment().tz("Europe/Brussels").format("DD/MM/YY HH:mm")}</span></p><br><br>
-      <p><span style="font-weight:bold;">Naam:&nbsp;</span><span>${form.name}</span></p>
-      <p><span style="font-weight:bold;">Contactpersoon indien vereniging:&nbsp;</span><span>${form.contactPersonName}</span></p><br>
-      <p><span style="font-weight:bold;">Straat:&nbsp;</span><span>${form.street}</span></p>
-      <p><span style="font-weight:bold;">Huisnummer:&nbsp;</span><span>${form.houseNumber}</span></p>
-      <p><span style="font-weight:bold;">Toevoeging:&nbsp;</span><span>${form.addressComplement}</span></p>
-      <p><span style="font-weight:bold;">Postcode:&nbsp;</span><span>${form.postalCode}</span></p>
-      <p><span style="font-weight:bold;">Gemeente of Stad:&nbsp;</span><span>${form.locality}</span></p><br>
-      <p><span style="font-weight:bold;">Telefoonnummer:&nbsp;</span><span>${form.telephone}</span></p>
-      <p><span style="font-weight:bold;">Mailadres:&nbsp;</span><span>${form.senderEmail}</span></p><br>
-      <p style="font-weight:bold;">Omschrijving klacht:</p>
-      <div style="margin-left: 40px;">
-        ${form.content.replace(/\n/g, "<br />")}
-      </div><br>
-
-      <p style="font-weight:bold;">Bijlagen</p>
-      <ul>
-        ${attachmentsHtml(attachments)}
-      </ul>
-    </div><br>
-    <p>De afzender heeft een mail gekregen waarin werd aangegeven dat zijn klacht succesvol werd ingediend en hij nog verder geïnformeerd zal worden over het gevolg dat aan de klacht wordt gegeven.</p><br>
-    <p>Hoogachtend</p>
-    <p>ABB Vlaanderen</p>
-    `;
-};
-
-export {
-  receiverEmailSubject,
-  receiverEmailPlainTextContent,
-  receiverEmailHtmlContent
-};
+export function receiverEmailHtmlContent(form, attachments) {
+  const verzondenFrom = uti.senderName(form);
+  const verzondenAt = formatInTimeZone(
+    form.created,
+    'Europe/Brussels',
+    'dd/MM/yyyy HH:mm',
+  );
+  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  return `<p>Geachte</p>
+<br>
+<p>Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager</p>
+<div style="margin-left: 40px;">
+  <p>
+    <span style="font-weight:bold;">Beveiligd verzonden:</span>
+    <span>${verzondenFrom}, ${verzondenAt}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Ontvangen:</span>
+    <span>Agentschap Binnenlands Bestuur, ${ontvangenAt}</span>
+  </p>
+  <br><br>
+  <p>
+    <span style="font-weight:bold;">Naam:</span>
+    <span>${form.name}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Contactpersoon indien vereniging:</span>
+    <span>${form.contactPersonName}</span>
+  </p>
+  <br>
+  <p>
+    <span style="font-weight:bold;">Straat:</span>
+    <span>${form.street}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Huisnummer:</span>
+    <span>${form.houseNumber}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Toevoeging:</span>
+    <span>${form.addressComplement}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Postcode:</span>
+    <span>${form.postalCode}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Gemeente of Stad:</span>
+    <span>${form.locality}</span>
+  </p>
+  <br>
+  <p>
+    <span style="font-weight:bold;">Telefoonnummer:</span>
+    <span>${form.telephone}</span>
+  </p>
+  <p>
+    <span style="font-weight:bold;">Mailadres:</span>
+    <span>${form.senderEmail}</span>
+  </p>
+  <br>
+  <p style="font-weight:bold;">Omschrijving klacht:</p>
+  <div style="margin-left: 40px;">
+    ${form.content.replace(/\n/g, '<br />')}
+  </div>
+  <br>
+  <p style="font-weight:bold;">Bijlagen</p>
+  <ul>
+    ${attachmentsHtml(attachments)}
+  </ul>
+</div>
+<p>
+  De afzender heeft een mail gekregen waarin werd aangegeven dat zijn klacht succesvol werd ingediend en hij nog verder geïnformeerd zal worden over het gevolg dat aan de klacht wordt gegeven.
+</p>
+<br>
+<p>Hoogachtend</p>
+<p>ABB Vlaanderen</p>`;
+}

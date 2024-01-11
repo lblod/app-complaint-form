@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 services:
 
@@ -13,7 +13,7 @@ services:
   dispatcher:
     restart: "no"
 
-  database:
+  virtuoso:
     ports:
       - "8890:8890"
     restart: "no"
@@ -27,11 +27,21 @@ services:
   file:
     restart: "no"
 
-  complaint-form-email-converter-service:
+  complaint-form-email-converter:
     restart: "no"
 
-  deliver-email-service:
+  deliver-email:
     restart: "no"
+    environment:
+      MAILBOX_URI: 'http://data.lblod.info/id/mailboxes/1'
+      WELL_KNOWN_SERVICE: "test"
+      SECURE_CONNECTION: "true"
+      EMAIL_ADDRESS: "mymail@test.com"
+      EMAIL_PASSWORD: "myemailpassword"
+      FROM_NAME: "Testmailer"
+      NODE_ENV: "development"
+    volumes:
+      - ./data/files:/share
 
   complaint-form-warning:
     restart: "no"
