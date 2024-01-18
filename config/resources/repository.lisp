@@ -14,3 +14,5 @@
 (add-prefix "nie"     "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#")
 (add-prefix "nmo"     "http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#")
 (add-prefix "task"    "http://redpencil.data.gift/vocabularies/tasks/")
+(add-prefix "email" "http://mu.semte.ch/vocabularies/ext/email/")
+(add-prefix "adms" "http://www.w3.org/ns/adms#")
