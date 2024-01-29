@@ -1,4 +1,6 @@
 # Changelog
+## 2.0.1 (2024-01-30)
+- ensure old data is properly migrated to work with mu-auth
 ## 2.0.0 (2024-01-17)
 Mainly a refurbishment taking all `semantic.works` evolutions into considerations.
 ### deploy instructions
