@@ -25,6 +25,11 @@ defmodule Dispatcher do
     forward conn, [], "http://file/files/" <> id <> "/download"
   end
 
+  # Returns meta data of the uploaded file.
+  get "/files/:id", %{ accept: %{ any: true } } do
+    forward conn, path, "http://resource/files/" <> id
+  end
+
   # Endpoint required to upload file content.
   post "/files/*path", %{ accept: %{ any: true } } do
     forward conn, path, "http://file/files/"
