@@ -1,4 +1,10 @@
 # Changelog
+## Unreleased
+- format all dates using the same timezone [DL-5685]
+### deploy instructions
+```
+drc restart complaint-form-email-converter
+```
 ## 2.0.2 (2024-01-30)
 - correct dispatcher rules [DL-5603]
 ## 2.0.1 (2024-01-30)

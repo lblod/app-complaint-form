@@ -1,7 +1,6 @@
-import { format } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import envvar from 'env-var';
 import * as uti from './utils';
+import { formatDate } from './utils';
 
 const fileDownloadPrefix = envvar
   .get('FILE_DOWNLOAD_PREFIX')
@@ -38,12 +37,8 @@ function attachmentsHtml(attachments) {
 
 export function receiverEmailPlainTextContent(form, attachments) {
   const verzondenFrom = uti.senderName(form);
-  const verzondenAt = formatInTimeZone(
-    form.created,
-    'Europe/Brussels',
-    'dd/MM/yyyy HH:mm',
-  );
-  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  const verzondenAt = formatDate(form.created);
+  const ontvangenAt = formatDate(new Date());
   return `Geachte
 Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager
 
@@ -73,12 +68,8 @@ ABB Vlaanderen`;
 
 export function receiverEmailHtmlContent(form, attachments) {
   const verzondenFrom = uti.senderName(form);
-  const verzondenAt = formatInTimeZone(
-    form.created,
-    'Europe/Brussels',
-    'dd/MM/yyyy HH:mm',
-  );
-  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  const verzondenAt = formatDate(form.created);
+  const ontvangenAt = formatDate(new Date());
   return `<p>Geachte</p>
 <br>
 <p>Er werd een klacht ingediend bij het Agentschap Binnenlands Bestuur via het Digitaal Klachtenformulier. Hieronder vindt u de inhoud van de klacht en de gegevens van klager</p>
