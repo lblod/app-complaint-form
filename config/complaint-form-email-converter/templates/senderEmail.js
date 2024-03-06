@@ -1,6 +1,5 @@
-import { format } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
 import * as uti from './utils';
+import { formatDate } from './utils';
 
 export function senderEmailSubject() {
   return 'Uw klacht over de werking van een lokaal bestuur.';
@@ -20,12 +19,9 @@ function attachmentsHtml(attachments) {
 
 export function senderEmailPlainTextContent(form, attachments) {
   const verzondenFrom = uti.senderName(form);
-  const verzondenAt = formatInTimeZone(
-    form.created,
-    'Europe/Brussels',
-    'dd/MM/yyyy HH:mm',
-  );
-  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  const verzondenAt = formatDate(form.created);
+  const ontvangenAt = formatDate(new Date());
+
   return `Geachte ${verzondenFrom}
 Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:
 
@@ -57,12 +53,8 @@ ABB Vlaanderen`;
 
 export function senderEmailHtmlContent(form, attachments) {
   const verzondenFrom = uti.senderName(form);
-  const verzondenAt = formatInTimeZone(
-    form.created,
-    'Europe/Brussels',
-    'dd/MM/yyyy HH:mm',
-  );
-  const ontvangenAt = format(new Date(), 'dd/MM/yyyy HH:mm');
+  const verzondenAt = formatDate(form.created);
+  const ontvangenAt = formatDate(new Date());
   return `<p>Geachte ${verzondenFrom}</p>
 <br>
 <p>Het Agentschap Binnenlands Bestuur Vlaanderen heeft uw klacht goed ontvangen:</p>
