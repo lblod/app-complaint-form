@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 2.0.3 (2024-03-07)
 - format all dates using the same timezone [DL-5685]
 ### deploy instructions
 ```
