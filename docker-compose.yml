@@ -25,6 +25,18 @@ services:
     restart: always
     logging: *default-logging
 
+  login:
+    image: lblod/acmidm-login-service:0.11.0
+    environment:
+      MU_APPLICATION_AUTH_DISCOVERY_URL: "https://authenticatie-ti.vlaanderen.be/op"
+      MU_APPLICATION_AUTH_CLIENT_ID: "5cbf63f8-fbd9-4ab6-8c91-be0d07723147"
+      MU_APPLICATION_AUTH_REDIRECT_URI: "https://loket.lblod.info/authorization/callback"
+      MU_APPLICATION_AUTH_CLIENT_SECRET: "secret"
+    labels:
+      - "logging=true"
+    restart: always
+    logging: *default-logging
+
   dispatcher:
     image: semtech/mu-dispatcher:2.0.0
     volumes:
