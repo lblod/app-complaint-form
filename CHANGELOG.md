@@ -1,4 +1,20 @@
 # Changelog
+## Unreleased
+- Add ACMIDM and mocklogin to the stack [DL-6614]
+### Deploy instructions
+Add the following to your `docker-compose.override.yml`:
+```
+  mocklogin:
+    image: lblod/mock-login-service:0.7.0
+    restart: "no"
+  login:
+    environment:
+      MU_APPLICATION_AUTH_CLIENT_SECRET: "TODO_REPLACE_ME"
+```
+Then
+```
+drc restart dispatcher database migrations ; drc up -d
+```
 ## 2.0.3 (2024-03-07)
 - format all dates using the same timezone [DL-5685]
 ### deploy instructions
