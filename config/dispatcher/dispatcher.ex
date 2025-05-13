@@ -11,7 +11,10 @@ defmodule Dispatcher do
 # Resources
 ###############################################################################
 
-  # Users only create complaint forms.
+  get "/complaint-forms/*path", %{ accept: %{ json: true } } do
+    forward conn, path, "http://resource/complaint-forms/"
+  end
+
   post "/complaint-forms/*path", %{ accept: %{ json: true } } do
     forward conn, path, "http://resource/complaint-forms/"
   end
