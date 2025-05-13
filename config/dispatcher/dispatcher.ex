@@ -10,6 +10,9 @@ defmodule Dispatcher do
 ###############################################################################
 # Resources
 ###############################################################################
+  get "/accounts/*path", %{ accept: %{ json: true } } do
+    forward conn, path, "http://resource/accounts/"
+  end
 
   get "/complaint-forms/*path", %{ accept: %{ json: true } } do
     forward conn, path, "http://resource/complaint-forms/"

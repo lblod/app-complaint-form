@@ -16,3 +16,5 @@
 (add-prefix "task"    "http://redpencil.data.gift/vocabularies/tasks/")
 (add-prefix "email" "http://mu.semte.ch/vocabularies/ext/email/")
 (add-prefix "adms" "http://www.w3.org/ns/adms#")
+(add-prefix "besluit" "http://data.vlaanderen.be/ns/besluit#")
+(add-prefix "skos" "http://www.w3.org/2004/02/skos/core#")
