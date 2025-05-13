@@ -35,8 +35,8 @@ defmodule Dispatcher do
 # Files
 ###############################################################################
 
-  # This will be protected by basic-auth, so file content will never be public.
-  get "/files/:id/download", %{ accept: %{ any: true } } do
+  # We use a different endpoint for the actual downloads since the frontend now handles the regular `GET /files/:id/download` calls.
+  get "/files-download/:id/download", %{ accept: %{ any: true } } do
     forward conn, [], "http://file/files/" <> id <> "/download"
   end
 
@@ -73,6 +73,11 @@ defmodule Dispatcher do
 
   match "/favicon.ico", %{ accept: %{ any: true } } do
     send_resp( conn, 404, "" )
+  end
+
+  # We handle the old download links in the frontend now.
+  get "/files/:id/download", %{ accept: %{ any: true } } do
+    forward conn, [], "http://frontend/index.html"
   end
 
   match "/*_path", %{ accept: %{ html: true } } do
