@@ -2,11 +2,14 @@
 ## Unreleased
 - Add ACMIDM and mocklogin to the stack [DL-6614]
 ### Deploy instructions
-Add the following to your `docker-compose.override.yml`:
+On DEV only: add the following to your `docker-compose.override.yml`:
 ```
   mocklogin:
     image: lblod/mock-login-service:0.7.0
     restart: "no"
+```
+And for QA and PROD:
+```
   login:
     environment:
       MU_APPLICATION_AUTH_CLIENT_SECRET: "TODO_REPLACE_ME"
