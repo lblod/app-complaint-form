@@ -1,0 +1,19 @@
+DELETE {
+  GRAPH <http://mu.semte.ch/graphs/public> {
+    ?s ?p ?o .
+  }
+} INSERT {
+  GRAPH <http://mu.semte.ch/graphs/complaints> {
+    ?s ?p ?o .
+  }
+} WHERE {
+  GRAPH <http://mu.semte.ch/graphs/public> {
+    VALUES ?type {
+      <http://mu.semte.ch/vocabularies/ext/ComplaintForm>
+      <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject>
+    }
+
+    ?s a ?type ;
+      ?p ?o .
+  }
+}

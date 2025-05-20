@@ -6,12 +6,6 @@ alias Acl.GroupSpec, as: GroupSpec
 alias Acl.GroupSpec.GraphCleanup, as: GraphCleanup
 
 defmodule Acl.UserGroups.Config do
-  defp access_by_role( group_string ) do
-    %AccessByQuery{
-      vars: ["session_group","session_role"],
-      query: sparql_query_for_access_role( group_string ) }
-  end
-
   defp access_by_role_for_single_graph( group_string ) do
     %AccessByQuery{
       vars: [],
@@ -67,27 +61,13 @@ defmodule Acl.UserGroups.Config do
                         "http://www.w3.org/ns/adms#Identifier",
                       ] } } ] },
 
-      # PUBLIC access is limited to write only
-      %GroupSpec{
-        name: "public",
-        useage: [ :write ],
-        access: %AlwaysAccessible{},
-        graphs: [ %GraphSpec{
-          graph: "http://mu.semte.ch/graphs/public",
-          constraint: %ResourceConstraint{
-            resource_types: [
-              "http://mu.semte.ch/vocabularies/ext/ComplaintForm",
-              "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"
-            ]
-          } } ] },
-
       # Logged in and authorized users
       %GroupSpec{
-        name: "acmidm-authorized-r",
+        name: "complaints-r",
         useage: [ :read ],
-        access: access_by_role( "KlachtenformulierGebruiker" ),
+        access: access_by_role_for_single_graph( "KlachtenformulierGebruiker" ),
         graphs: [ %GraphSpec{
-                    graph: "http://mu.semte.ch/graphs/public",
+                    graph: "http://mu.semte.ch/graphs/complaints",
                     constraint: %ResourceConstraint{
                       resource_types: [
                         "http://mu.semte.ch/vocabularies/ext/ComplaintForm",

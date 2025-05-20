@@ -4,7 +4,7 @@ export default [
       subject: {},
     },
     callback: {
-      url: 'http://resource/.mu/delta',
+      url: 'http://resource-write-only/.mu/delta',
       method: 'POST',
     },
     options: {
@@ -12,5 +12,5 @@ export default [
       gracePeriod: 250,
       ignoreFromSelf: true,
     },
-  },
+  }
 ];

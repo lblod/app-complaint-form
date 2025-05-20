@@ -19,7 +19,7 @@ defmodule Dispatcher do
   end
 
   post "/complaint-forms/*path", %{ accept: %{ json: true } } do
-    forward conn, path, "http://resource/complaint-forms/"
+    forward conn, path, "http://resource-write-only/complaint-forms/"
   end
 
 ###############################################################################
@@ -50,12 +50,12 @@ defmodule Dispatcher do
 
   # Endpoint required to upload file content.
   post "/files/*path", %{ accept: %{ any: true } } do
-    forward conn, path, "http://file/files/"
+    forward conn, path, "http://file-write-only/files/"
   end
 
   # User must be able to delete file.
   delete "/files/*path", %{ accept: %{ any: true } } do
-    forward conn, path, "http://file/files/"
+    forward conn, path, "http://file-write-only/files/"
   end
 
 ###############################################################################
