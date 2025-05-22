@@ -61,13 +61,34 @@ defmodule Acl.UserGroups.Config do
                         "http://www.w3.org/ns/adms#Identifier",
                       ] } } ] },
 
-      # Logged in and authorized users
+      # Unauthorized users can write complaints andfiles via POST calls to the public graph
       %GroupSpec{
-        name: "complaints-r",
+        name: "complaints-sender",
+        useage: [ :write ],
+        access: %AlwaysAccessible{},
+        graphs: [ %GraphSpec{
+          graph: "http://mu.semte.ch/graphs/public",
+          constraint: %ResourceConstraint{
+            resource_types: [
+              "http://mu.semte.ch/vocabularies/ext/ComplaintForm",
+              "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"
+            ]
+          } } ] },
+
+      # Logged in and authorized users can read the complaints and files in the public graph
+      #
+      # /!\ WARNING /!\
+      #
+      # The name of this GroupSpec, `admin`, is used in the dispatcher config as well to shield GET calls to
+      # complaints and files and make sure they are only allowed for authorized users, due to how mu-auth
+      # works (mu-auth doesn't not restrain the resource TYPES that can be read from the graph, only the
+      # graph itself, which is an issue for this app where some users need to only write and others only read)
+      %GroupSpec{
+        name: "admin",
         useage: [ :read ],
         access: access_by_role_for_single_graph( "KlachtenformulierGebruiker" ),
         graphs: [ %GraphSpec{
-                    graph: "http://mu.semte.ch/graphs/complaints",
+                    graph: "http://mu.semte.ch/graphs/public",
                     constraint: %ResourceConstraint{
                       resource_types: [
                         "http://mu.semte.ch/vocabularies/ext/ComplaintForm",

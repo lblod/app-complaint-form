@@ -28,6 +28,7 @@ services:
   login:
     image: lblod/acmidm-login-service:0.11.0
     environment:
+      MU_APPLICATION_AUTH_ROLE_CLAIM: "abb_klachtenformulier_rol_1d"
       MU_APPLICATION_AUTH_DISCOVERY_URL: "https://authenticatie-ti.vlaanderen.be/op"
       MU_APPLICATION_AUTH_CLIENT_ID: "5cbf63f8-fbd9-4ab6-8c91-be0d07723147"
       MU_APPLICATION_AUTH_REDIRECT_URI: "https://klachtenformulier.lblod.info/authorization/callback"
@@ -65,11 +66,6 @@ services:
       MU_SPARQL_ENDPOINT: "http://virtuoso:8890/sparql"
       DATABASE_OVERLOAD_RECOVERY: "true"
       DATABASE_COMPATIBILITY: "Virtuoso"
-      LOG_ACCESS_RIGHTS: "true"
-      LOG_OUTGOING_SPARQL_QUERIES: "true"
-      LOG_INCOMING_SPARQL_QUERIES: "true"
-      LOG_OUTGOING_SPARQL_QUERY_RESPONSES: "true"
-      LOG_OUTGOING_SPARQL_QUERY_ROUNDTRIP: "true"
     volumes:
       - ./config/authorization:/config
     labels:
@@ -116,52 +112,6 @@ services:
       - "logging=true"
     restart: always
     logging: *default-logging
-
-
-
-
-  database-write-only:
-    image: semtech/mu-authorization:0.6.0-beta.8
-    environment:
-      MU_SPARQL_ENDPOINT: "http://virtuoso:8890/sparql"
-      DATABASE_OVERLOAD_RECOVERY: "true"
-      DATABASE_COMPATIBILITY: "Virtuoso"
-      LOG_ACCESS_RIGHTS: "true"
-      LOG_OUTGOING_SPARQL_QUERIES: "true"
-      LOG_INCOMING_SPARQL_QUERIES: "true"
-      LOG_OUTGOING_SPARQL_QUERY_RESPONSES: "true"
-      LOG_OUTGOING_SPARQL_QUERY_ROUNDTRIP: "true"
-    volumes:
-      - ./config/authorization-write-only:/config
-    labels:
-      - "logging=true"
-    restart: always
-    logging: *default-logging
-
-  resource-write-only:
-    image: semtech/mu-cl-resources:1.22.2
-    volumes:
-      - ./config/resources-write-only:/config
-    links:
-      - database-write-only:database
-    labels:
-      - "logging=true"
-    restart: always
-    logging: *default-logging
-
-  file-write-only:
-    image: semtech/mu-file-service:3.3.2
-    volumes:
-      - ./data/files:/share
-    links:
-      - database-write-only:database
-    labels:
-      - "logging=true"
-    restart: always
-    logging: *default-logging
-
-
-
 
   complaint-form-email-converter:
     image: lblod/complaint-form-email-converter-service:1.0.2

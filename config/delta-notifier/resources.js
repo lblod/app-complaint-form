@@ -4,7 +4,7 @@ export default [
       subject: {},
     },
     callback: {
-      url: 'http://resource-write-only/.mu/delta',
+      url: 'http://resource/.mu/delta',
       method: 'POST',
     },
     options: {
