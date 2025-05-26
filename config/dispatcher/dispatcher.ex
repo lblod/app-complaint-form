@@ -128,11 +128,6 @@ defmodule Dispatcher do
     forward conn, path, "http://file/files/"
   end
 
-  # User must be able to delete file.
-  delete "/files/*path", %{ accept: %{ any: true } } do
-    forward conn, path, "http://file/files/"
-  end
-
 ###############################################################################
 # Frontend
 ###############################################################################
