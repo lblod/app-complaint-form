@@ -10,9 +10,13 @@ On DEV only: add the following to your `docker-compose.override.yml`:
 ```
 And for QA and PROD:
 ```
+  frontend:
+    environment:
+      EMBER_ACMIDM_REDIRECT_URL: "https://qa.klachtenformulier.lblod.info/authorization/callback" # only for QA
   login:
     environment:
-      MU_APPLICATION_AUTH_CLIENT_SECRET: "TODO_REPLACE_ME"
+      MU_APPLICATION_AUTH_REDIRECT_URI: "https://qa.klachtenformulier.lblod.info/authorization/callback" # only for QA
+      MU_APPLICATION_AUTH_CLIENT_SECRET: "TODO_REPLACE_ME" # QA and Prod
 ```
 Then
 ```

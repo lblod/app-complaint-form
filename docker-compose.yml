@@ -11,6 +11,12 @@ services:
 
   frontend:
     image: lblod/frontend-complaint-form:0.6.0
+    environment:
+      EMBER_ACMIDM_CLIENT_ID: "5cbf63f8-fbd9-4ab6-8c91-be0d07723147"
+      EMBER_ACMIDM_BASE_URL: "https://authenticatie-ti.vlaanderen.be/op/v1/auth"
+      EMBER_ACMIDM_LOGOUT_URL: "https://authenticatie-ti.vlaanderen.be/op/v1/logout"
+      EMBER_ACMIDM_REDIRECT_URL: "https://klachtenformulier.lblod.info/authorization/callback"
+      EMBER_ACMIDM_SCOPE: "openid rrn profile vo abb_klachtenformulier"
     links:
       - identifier:backend
     labels:
