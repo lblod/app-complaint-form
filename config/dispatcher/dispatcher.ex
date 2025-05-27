@@ -7,27 +7,41 @@ defmodule Dispatcher do
     any: [ "*/*" ]
   ]
 
-  # Helper function to parse the mu-auth header
-  defp parse_json_like_header(header_value) do
+  # Helper to parse a json header looking for role names
+  defp parse_header(header_value) do
     try do
-      # Parsing logic to find the role names for the expected format:
-      # [{"variables":[],"name":"role 1"}, {"variables":[],"name":"role 2"}]
-      trimmed_value = String.trim(header_value)
-      inner_content = String.slice(trimmed_value, 1, String.length(trimmed_value) - 2)
-      role_strings = String.split(inner_content, ",{")
+      # Attempt to extract all "name" fields manually
+      matches = Regex.scan(~r/"name"\s*:\s*"([^"]+)"/, header_value)
 
-      # Extract the role names
-      roles = Enum.map(role_strings, fn role_str ->
-        # Use regular expressions to find the name of the role
-        regex = ~r/"name":"([^"]+)/
-        [_, name] = Regex.run(regex, role_str)
-        name
-      end)
+      role_names = Enum.map(matches, fn [_, name] -> name end)
 
-      {:ok, roles}
+      {:ok, role_names}
     rescue
-      e ->
-        {:error, "Invalid 'mu-auth-allowed-groups' header format."}
+      _ ->
+        {:error, "Exception during parsing of 'mu-auth-allowed-groups' header."}
+    end
+  end
+
+  # Helper to determine if we should allow the access to the resource, depending on role
+  defp with_role(conn, required_role, on_success) do
+    allowed_groups_header = Plug.Conn.get_req_header(conn, "mu-auth-allowed-groups")
+
+    case allowed_groups_header do
+      [] ->
+        send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: 'mu-auth-allowed-groups' header missing or empty.\" } }")
+
+      [header_value | _] ->
+        case parse_header(header_value) do
+          {:ok, role_names} ->
+            if required_role in role_names do
+              on_success.()
+            else
+              send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: Insufficient privileges. '#{required_role}' group required.\" } }")
+            end
+
+          {:error, reason} ->
+            send_resp(conn, 400, "{ \"error\": { \"code\": 400, \"message\": \"Bad Request: #{reason}\" } }")
+        end
     end
   end
 
@@ -39,23 +53,9 @@ defmodule Dispatcher do
   end
 
   get "/complaint-forms/*path", %{ accept: %{ json: true } } do
-    # Looking for the "admin" role in mu-au-allowed-group header
-    allowed_groups_header = Plug.Conn.get_req_header(conn, "mu-auth-allowed-groups")
-    case allowed_groups_header do
-      [] -> # Header is not present or empty
-        send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: 'mu-auth-allowed-groups' header missing or empty.\" } }")
-      [header_value | _rest] ->
-        case parse_json_like_header(header_value) do
-          {:ok, role_names} ->
-            if "admin" in role_names do
-              forward conn, path, "http://resource/complaint-forms/"
-            else
-              send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: Insufficient privileges. 'admin' group required.\" } }")
-            end
-          {:error, reason} ->
-            send_resp(conn, 400, "{ \"error\": { \"code\": 400, \"message\": \"Bad Request: #{reason}\" } }")
-        end
-    end
+    with_role(conn, "admin", fn ->
+      forward conn, path, "http://resource/complaint-forms/"
+    end)
   end
 
   post "/complaint-forms/*path", %{ accept: %{ json: true } } do
@@ -83,44 +83,16 @@ defmodule Dispatcher do
   #  forward conn, [], "http://file/files/" <> id <> "/download"
   #end
   get "/files-download/:id/download", %{ accept: %{ any: true } } do
-    # Looking for the "admin" role in mu-au-allowed-group header
-    allowed_groups_header = Plug.Conn.get_req_header(conn, "mu-auth-allowed-groups")
-    case allowed_groups_header do
-      [] -> # Header is not present or empty
-        send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: 'mu-auth-allowed-groups' header missing or empty.\" } }")
-      [header_value | _rest] ->
-        case parse_json_like_header(header_value) do
-          {:ok, role_names} ->
-            if "admin" in role_names do
-              forward conn, [], "http://file/files/" <> id <> "/download"
-            else
-              send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: Insufficient privileges. 'admin' group required.\" } }")
-            end
-          {:error, reason} ->
-            send_resp(conn, 400, "{ \"error\": { \"code\": 400, \"message\": \"Bad Request: #{reason}\" } }")
-        end
-    end
+    with_role(conn, "admin", fn ->
+      forward conn, [], "http://file/files/" <> id <> "/download"
+    end)
   end
 
   # Returns meta data of the uploaded file.
   get "/files/:id", %{ accept: %{ any: true } } do
-    # Looking for the "admin" role in mu-au-allowed-group header
-    allowed_groups_header = Plug.Conn.get_req_header(conn, "mu-auth-allowed-groups")
-    case allowed_groups_header do
-      [] -> # Header is not present or empty
-        send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: 'mu-auth-allowed-groups' header missing or empty.\" } }")
-      [header_value | _rest] ->
-        case parse_json_like_header(header_value) do
-          {:ok, role_names} ->
-            if "admin" in role_names do
-              forward conn, [], "http://resource/files/" <> id
-            else
-              send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: Insufficient privileges. 'admin' group required.\" } }")
-            end
-          {:error, reason} ->
-            send_resp(conn, 400, "{ \"error\": { \"code\": 400, \"message\": \"Bad Request: #{reason}\" } }")
-        end
-    end
+    with_role(conn, "admin", fn ->
+      forward conn, [], "http://resource/files/" <> id
+    end)
   end
 
   # Endpoint required to upload file content.
