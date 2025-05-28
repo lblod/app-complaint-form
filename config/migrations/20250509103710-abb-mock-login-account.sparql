@@ -1,0 +1,32 @@
+PREFIX besluit: <http://data.vlaanderen.be/ns/besluit#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX mu:<http://mu.semte.ch/vocabularies/core/>
+PREFIX ext:<http://mu.semte.ch/vocabularies/ext/>
+
+INSERT DATA {
+  GRAPH <http://mu.semte.ch/graphs/public> {
+    <http://data.lblod.info/id/persoon/5b6ec29c-8e01-4564-b816-90303fd7d51b> a foaf:Person ;
+      mu:uuid "5b6ec29c-8e01-4564-b816-90303fd7d51b" ;
+      foaf:firstName "Processor" ;
+      foaf:familyName "ABB" ;
+      foaf:member <http://data.lblod.info/id/bestuurseenheden/141d9d6b-54af-4d17-b313-8d1c30bc3f5b> ;
+      foaf:account <http://data.lblod.info/id/account/d2103119-0418-49ed-8b42-5929555ba42c> .
+    <http://data.lblod.info/id/account/d2103119-0418-49ed-8b42-5929555ba42c> a foaf:OnlineAccount ;
+      mu:uuid "d2103119-0418-49ed-8b42-5929555ba42c" ;
+      foaf:accountServiceHomepage <https://github.com/lblod/mock-login-service>;
+      ext:sessionRole "KlachtenformulierGebruiker" .
+  }
+  GRAPH <http://mu.semte.ch/graphs/organizations/141d9d6b-54af-4d17-b313-8d1c30bc3f5b> {
+    <http://data.lblod.info/id/persoon/5b6ec29c-8e01-4564-b816-90303fd7d51b> a foaf:Person ;
+      mu:uuid "5b6ec29c-8e01-4564-b816-90303fd7d51b" ;
+      foaf:firstName "Processor" ;
+      foaf:familyName "ABB" ;
+      foaf:member <http://data.lblod.info/id/bestuurseenheden/141d9d6b-54af-4d17-b313-8d1c30bc3f5b> ;
+      foaf:account <http://data.lblod.info/id/account/d2103119-0418-49ed-8b42-5929555ba42c> .
+    <http://data.lblod.info/id/account/d2103119-0418-49ed-8b42-5929555ba42c> a foaf:OnlineAccount ;
+      mu:uuid "d2103119-0418-49ed-8b42-5929555ba42c" ;
+      foaf:accountServiceHomepage <https://github.com/lblod/mock-login-service>;
+      ext:sessionRole "KlachtenformulierGebruiker" .
+  }
+}

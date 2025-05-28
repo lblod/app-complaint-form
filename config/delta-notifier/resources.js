@@ -12,5 +12,5 @@ export default [
       gracePeriod: 250,
       ignoreFromSelf: true,
     },
-  },
+  }
 ];

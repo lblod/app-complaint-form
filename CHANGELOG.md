@@ -1,4 +1,27 @@
 # Changelog
+## Unreleased
+- Add ACMIDM and mocklogin to the stack [DL-6614]
+### Deploy instructions
+On DEV only: add the following to your `docker-compose.override.yml`:
+```
+  mocklogin:
+    image: lblod/mock-login-service:0.7.0
+    restart: "no"
+```
+And for QA and PROD:
+```
+  frontend:
+    environment:
+      EMBER_ACMIDM_REDIRECT_URL: "https://qa.klachtenformulier.lblod.info/authorization/callback" # only for QA
+  login:
+    environment:
+      MU_APPLICATION_AUTH_REDIRECT_URI: "https://qa.klachtenformulier.lblod.info/authorization/callback" # only for QA
+      MU_APPLICATION_AUTH_CLIENT_SECRET: "TODO_REPLACE_ME" # QA and Prod
+```
+Then
+```
+drc restart dispatcher database migrations ; drc up -d
+```
 ## 2.0.3 (2024-03-07)
 - format all dates using the same timezone [DL-5685]
 ### deploy instructions

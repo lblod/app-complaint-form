@@ -2,6 +2,14 @@
 
 This application allows citizens to complain via a form.
 
+> [!WARNING]
+>
+> ⚠️ This is not a regular mu-semtech application ⚠️
+>
+> It mostly is, but there is an extra layer of shielding in the dispatcher to ensure the GET calls to complaints and files are only performed by authenticated users. Be considerate of this when doing updates.
+>
+> This is a workaround to how mu-auth behaves in this application where we need some users to only write to the public graph and some others to only read. Mu-auth doesn't not restrain the resource types that can be read from the graph, only the graph itself. Unauthenticated users need to be able to write to the public graph their complaints, but the public graph also allows users to log in by querying organizations and accounts, causing them to also be able to read the complaints.
+
 ## What's included?
 
 This repository harvest two setups.  The base of these setups resides in the standard docker-compose.yml.

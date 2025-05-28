@@ -7,36 +7,93 @@ defmodule Dispatcher do
     any: [ "*/*" ]
   ]
 
+  # Helper to parse a json header looking for role names
+  defp parse_header(header_value) do
+    try do
+      # Attempt to extract all "name" fields manually
+      matches = Regex.scan(~r/"name"\s*:\s*"([^"]+)"/, header_value)
+
+      role_names = Enum.map(matches, fn [_, name] -> name end)
+
+      {:ok, role_names}
+    rescue
+      _ ->
+        {:error, "Exception during parsing of 'mu-auth-allowed-groups' header."}
+    end
+  end
+
+  # Helper to determine if we should allow the access to the resource, depending on role
+  defp with_role(conn, required_role, on_success) do
+    allowed_groups_header = Plug.Conn.get_req_header(conn, "mu-auth-allowed-groups")
+
+    case allowed_groups_header do
+      [] ->
+        send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: 'mu-auth-allowed-groups' header missing or empty.\" } }")
+
+      [header_value | _] ->
+        case parse_header(header_value) do
+          {:ok, role_names} ->
+            if required_role in role_names do
+              on_success.()
+            else
+              send_resp(conn, 403, "{ \"error\": { \"code\": 403, \"message\": \"Forbidden: Insufficient privileges. '#{required_role}' group required.\" } }")
+            end
+
+          {:error, reason} ->
+            send_resp(conn, 400, "{ \"error\": { \"code\": 400, \"message\": \"Bad Request: #{reason}\" } }")
+        end
+    end
+  end
+
 ###############################################################################
 # Resources
 ###############################################################################
+  get "/accounts/*path", %{ accept: %{ json: true } } do
+    forward conn, path, "http://resource/accounts/"
+  end
 
-  # Users only create complaint forms.
+  get "/complaint-forms/*path", %{ accept: %{ json: true } } do
+    with_role(conn, "admin", fn ->
+      forward conn, path, "http://resource/complaint-forms/"
+    end)
+  end
+
   post "/complaint-forms/*path", %{ accept: %{ json: true } } do
     forward conn, path, "http://resource/complaint-forms/"
+  end
+
+###############################################################################
+# Sessions
+###############################################################################
+
+  match "/mock/sessions/*path" do
+    forward conn, path, "http://mocklogin/sessions/"
+  end
+
+  match "/sessions/*path" do
+    forward conn, path, "http://login/sessions/"
   end
 
 ###############################################################################
 # Files
 ###############################################################################
 
-  # This will be protected by basic-auth, so file content will never be public.
-  get "/files/:id/download", %{ accept: %{ any: true } } do
-    forward conn, [], "http://file/files/" <> id <> "/download"
+  # We use a different endpoint for the actual downloads since the frontend now handles the regular `GET /files/:id/download` calls.
+  get "/files-download/:id/download", %{ accept: %{ any: true } } do
+    with_role(conn, "admin", fn ->
+      forward conn, [], "http://file/files/" <> id <> "/download"
+    end)
   end
 
   # Returns meta data of the uploaded file.
   get "/files/:id", %{ accept: %{ any: true } } do
-    forward conn, [], "http://resource/files/" <> id
+    with_role(conn, "admin", fn ->
+      forward conn, [], "http://resource/files/" <> id
+    end)
   end
 
   # Endpoint required to upload file content.
   post "/files/*path", %{ accept: %{ any: true } } do
-    forward conn, path, "http://file/files/"
-  end
-
-  # User must be able to delete file.
-  delete "/files/*path", %{ accept: %{ any: true } } do
     forward conn, path, "http://file/files/"
   end
 
@@ -58,6 +115,11 @@ defmodule Dispatcher do
 
   match "/favicon.ico", %{ accept: %{ any: true } } do
     send_resp( conn, 404, "" )
+  end
+
+  # We handle the old download links in the frontend now.
+  get "/files/:id/download", %{ accept: %{ any: true } } do
+    forward conn, [], "http://frontend/index.html"
   end
 
   match "/*_path", %{ accept: %{ html: true } } do
