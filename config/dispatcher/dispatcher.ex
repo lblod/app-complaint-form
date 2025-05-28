@@ -79,9 +79,6 @@ defmodule Dispatcher do
 ###############################################################################
 
   # We use a different endpoint for the actual downloads since the frontend now handles the regular `GET /files/:id/download` calls.
-  #get "/files-download/:id/download", %{ accept: %{ any: true } } do
-  #  forward conn, [], "http://file/files/" <> id <> "/download"
-  #end
   get "/files-download/:id/download", %{ accept: %{ any: true } } do
     with_role(conn, "admin", fn ->
       forward conn, [], "http://file/files/" <> id <> "/download"
