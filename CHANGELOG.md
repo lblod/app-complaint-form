@@ -8,16 +8,24 @@ On DEV only: add the following to your `docker-compose.override.yml`:
     image: lblod/mock-login-service:0.7.0
     restart: "no"
 ```
-And for QA and PROD:
+And for QA:
 ```
   frontend:
     environment:
+      EMBER_ACMIDM_CLIENT_ID: "5cbf63f8-fbd9-4ab6-8c91-be0d07723147"
+      EMBER_ACMIDM_BASE_URL: "https://authenticatie-ti.vlaanderen.be/op/v1/auth"
+      EMBER_ACMIDM_LOGOUT_URL: "https://authenticatie-ti.vlaanderen.be/op/v1/logout"
       EMBER_ACMIDM_REDIRECT_URL: "https://qa.klachtenformulier.lblod.info/authorization/callback" # only for QA
+      EMBER_ACMIDM_SCOPE: "openid rrn profile vo abb_klachtenformulier"
+
   login:
     environment:
       MU_APPLICATION_AUTH_REDIRECT_URI: "https://qa.klachtenformulier.lblod.info/authorization/callback" # only for QA
       MU_APPLICATION_AUTH_CLIENT_SECRET: "TODO_REPLACE_ME" # QA and Prod
 ```
+
+*Note that for PROD, it'll be very similar but some values will change. We don't have them yet, we'll receive them from ACMIDM once we validate the QA setup.*
+
 Then
 ```
 drc restart dispatcher database migrations ; drc up -d
