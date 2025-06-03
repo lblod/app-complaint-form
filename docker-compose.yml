@@ -10,7 +10,7 @@ x-logging:
 services:
 
   frontend:
-    image: lblod/frontend-complaint-form:0.7.1
+    image: lblod/frontend-complaint-form:0.7.2
     links:
       - identifier:backend
     labels:
