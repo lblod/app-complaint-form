@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 2.1.0 (2025-06-21)
 - Add ACMIDM and mocklogin to the stack [DL-6614]
 ### Deploy instructions
 On DEV only: add the following to your `docker-compose.override.yml`:
