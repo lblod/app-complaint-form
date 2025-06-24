@@ -1,4 +1,6 @@
 # Changelog
+## 2.4.0 (2025-06-24)
+- Added redirection from `klachtenformulier.lblod.info` to `klachtenformulier.lokaalbestuur.vlaanderen.be`. SeeAlso: [DL-6614]
 ## 2.1.0 (2025-06-21)
 - Add ACMIDM and mocklogin to the stack [DL-6614]
 ### Deploy instructions
