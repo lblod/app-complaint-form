@@ -10,4 +10,4 @@ We want to push `klachtenformulier.lokaalbestuur.vlaanderen.be` forward, but we 
 - It should work only on production.
 - It works only on machines set up with the standard Let's Encrypt setup, i.e. the service will work on the described `http` link.
 - This service should listen on `klachtenformulier.lblod.info` as `VIRTUAL_HOST` in `docker-compose.override.yml`
-- The identifier will listen to `klachtenformulier.lokaalbestuur.vlaanderen.be`
+- The frontend will listen to `klachtenformulier.lokaalbestuur.vlaanderen.be`
