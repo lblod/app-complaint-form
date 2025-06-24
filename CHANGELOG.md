@@ -1,5 +1,5 @@
 # Changelog
-## 2.4.0 (2025-06-24)
+## 2.2.0 (2025-06-24)
 - Added redirection from `klachtenformulier.lblod.info` to `klachtenformulier.lokaalbestuur.vlaanderen.be`. SeeAlso: [DL-6614]
 ### Deploy instructions
 On production only, ensure the `docker-compose.override.yml` file contains at least the following directives:
