@@ -1,5 +1,5 @@
 # What?
-Redirects `http://klachtenformulier.lblod.info/` to `http://klachtenformulier.lokaalbestuur.vlaanderen.be/`.
+Redirects `http://klachtenformulier.lblod.info/` to `https://klachtenformulier.lokaalbestuur.vlaanderen.be/`.
 
 # Why?
 This service and configuration are only relevant in production. Since the backoffice part was moved to ACM/IDM, it was necessary to make it work with a `*.vlaanderen.be` DNS. This means we currently have to support both `klachtenformulier.lblod.info` and `klachtenformulier.lokaalbestuur.vlaanderen.be`.
