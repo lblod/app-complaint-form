@@ -1,4 +1,6 @@
 # Changelog
+## 2.2.1 (2025-06-30)
+- Bump mu-cl-resources to v1.27.0
 ## 2.2.0 (2025-06-24)
 - Added redirection from `klachtenformulier.lblod.info` to `klachtenformulier.lokaalbestuur.vlaanderen.be`. SeeAlso: [DL-6614]
 ### Deploy instructions
