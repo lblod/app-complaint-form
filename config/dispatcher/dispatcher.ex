@@ -117,11 +117,6 @@ defmodule Dispatcher do
     send_resp( conn, 404, "" )
   end
 
-  # We handle the old download links in the frontend now.
-  get "/files/:id/download", %{ accept: %{ any: true } } do
-    forward conn, [], "http://frontend/index.html"
-  end
-
   match "/*_path", %{ accept: %{ html: true } } do
     forward conn, [], "http://frontend/index.html"
   end

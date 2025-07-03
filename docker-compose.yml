@@ -15,9 +15,7 @@ services:
       - ./config/redirector/:/etc/nginx/conf.d/
 
   frontend:
-    image: lblod/frontend-complaint-form:0.7.4
-    links:
-      - identifier:backend
+    image: lblod/frontend-complaint-form:0.8.0
     labels:
       - "logging=true"
     restart: always

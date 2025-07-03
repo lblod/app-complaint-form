@@ -1,4 +1,17 @@
 # Changelog
+## Unreleased
+- Bump frontend to v0.8.0 [DL-6715]
+
+### Deploy instructions
+
+The frontend now uses `semtech/static-file-service` as the base image, which assumes the identifier is the entrypoint of the app so we need to move the `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` environment variables from the frontend service to the identifier service.
+
+After that run the following commands:
+
+```
+drc restart dispatcher ; drc up -d
+```
+
 ## 2.2.1 (2025-06-30)
 - Bump mu-cl-resources to v1.27.0
 ## 2.2.0 (2025-06-24)
