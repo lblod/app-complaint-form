@@ -4,7 +4,10 @@
 
 ### Deploy instructions
 
-The frontend now uses `semtech/static-file-service` as the base image, which assumes the identifier is the entrypoint of the app so we need to move the `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` environment variables from the frontend service to the identifier service.
+The frontend now uses `semtech/static-file-service` as the base image, which assumes the identifier is the entrypoint of the app so we need to do some config changes when deploying:
+
+- move the `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` environment variables from the frontend to the identifier service
+- move the `networks` config from the frontend to the identifier service
 
 After that run the following commands:
 
