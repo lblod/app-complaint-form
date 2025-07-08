@@ -1,6 +1,6 @@
 # Changelog
 ## Unreleased
-- Bump frontend to v0.8.0 [DL-6715]
+- Bump frontend to v0.8.1 [DL-6715]
 
 ### Deploy instructions
 
