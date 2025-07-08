@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 2.2.2 (2025-07-08)
 - Bump frontend to v0.8.1 [DL-6715]
 
 ### Deploy instructions
