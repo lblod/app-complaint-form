@@ -1,6 +1,6 @@
 # Changelog
 ## 2.3.0 (2025-12-01)
-- [DL-7013] update grace period to wait a bit before email gets triggered.
+- [DL-7013] update grace period to wait a bit before email gets triggered
 ### Deploy instructions
 ```
 drc restart deltanotifier
