@@ -1,4 +1,10 @@
 # Changelog
+## 2.3.0 (2025-12-01)
+- [DL-7013] update grace period to wait a bit before email gets triggered.
+### Deploy instructions
+```
+drc restart deltanotifier
+```
 ## 2.2.2 (2025-07-08)
 - Bump frontend to v0.8.1 [DL-6715]
 
