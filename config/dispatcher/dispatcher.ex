@@ -62,6 +62,9 @@ defmodule Dispatcher do
     forward conn, path, "http://resource/complaint-forms/"
   end
 
+  patch "/complaint-forms/*path", %{ accept: %{ json: true } } do
+    forward conn, path, "http://resource/complaint-forms/"
+  end
 ###############################################################################
 # Sessions
 ###############################################################################
