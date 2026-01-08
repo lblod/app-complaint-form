@@ -1,4 +1,11 @@
 # Changelog
+## Unreleased
+- [DL-7038] Klachtenformulier follow-up: improve conversion to email
+### Deploy instructions
+```
+drc restart dispatcher complaint-form-email-converter resource
+```
+
 ## 2.3.0 (2025-12-01)
 - [DL-7013] update grace period to wait a bit before email gets triggered
 ### Deploy instructions
