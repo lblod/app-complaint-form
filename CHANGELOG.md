@@ -3,7 +3,7 @@
 - [DL-7038] Klachtenformulier follow-up: improve conversion to email
 ### Deploy instructions
 ```
-drc restart dispatcher complaint-form-email-converter resource
+drc restart migrations dispatcher complaint-form-email-converter resource
 ```
 
 ## 2.3.0 (2025-12-01)
