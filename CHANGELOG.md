@@ -1,9 +1,12 @@
 # Changelog
 ## Unreleased
 - [DL-7038] Klachtenformulier follow-up: improve conversion to email
+- [DL-6579] sparql-parser added
+
 ### Deploy instructions
 ```
 drc restart migrations dispatcher complaint-form-email-converter resource
+drc restart database
 ```
 
 ## 2.3.0 (2025-12-01)
