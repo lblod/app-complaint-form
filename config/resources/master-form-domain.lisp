@@ -12,7 +12,17 @@
                 (:content               :string   ,(s-prefix "ext:content"))
                 (:created               :datetime ,(s-prefix "dct:created"))
                 (:is-converted-to-email :string   ,(s-prefix "ext:isConvertedIntoEmail")))
+  :has-one `((complaint-status :via ,(s-prefix "adms:status")
+                               :as "status"))
   :has-many `((file :via ,(s-prefix "nmo:hasAttachment")
                     :as "attachments"))
   :resource-base (s-url "http://data.lblod.info/complaint-forms/")
   :on-path "complaint-forms")
+
+
+(define-resource complaint-status ()
+  :class (s-prefix "skos:Concept")
+  :properties `((:label :string ,(s-prefix "skos:prefLabel")))
+  :resource-base (s-url "http://lblod.data.gift/concepts/")
+  :features `(include-uri)
+  :on-path "complaint-statuses")

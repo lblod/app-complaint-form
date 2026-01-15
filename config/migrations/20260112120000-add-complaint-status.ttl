@@ -1,0 +1,4 @@
+<http://lblod.data.gift/concepts/9bd8d86d-bb10-4456-a84e-91e9507c374c>	<http://mu.semte.ch/vocabularies/core/uuid>	"9bd8d86d-bb10-4456-a84e-91e9507c374c" .
+<http://lblod.data.gift/concepts/9bd8d86d-bb10-4456-a84e-91e9507c374c>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://www.w3.org/2004/02/skos/core#Concept> .
+<http://lblod.data.gift/concepts/9bd8d86d-bb10-4456-a84e-91e9507c374c>	<http://www.w3.org/2004/02/skos/core#inScheme>	<http://lblod.data.gift/concept-schemes/9cf6fa63-1f49-4d53-af06-e1c235ece10b> .
+<http://lblod.data.gift/concepts/9bd8d86d-bb10-4456-a84e-91e9507c374c>	<http://www.w3.org/2004/02/skos/core#prefLabel>	"Verstuurd"@nl .
