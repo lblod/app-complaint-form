@@ -48,7 +48,7 @@
   ("foaf:OnlineAccount" -> _)
   ("adms:Identifier" -> _))
 
-(define-graph admin ("http://mu.semte.ch/graphs/public")
+(define-graph complaint-forms ("http://mu.semte.ch/graphs/public")
   ("ext:ComplaintForm" -> _)
   ("nfo:FileDataObject" -> _))
 
@@ -85,9 +85,17 @@
   :for-allowed-group "logged-in-or-impersonating")
 
 (grant (write)
-    :to-graph (admin)
+    :to-graph (complaint-forms)
     :for-allowed-group "public")
 
+;; Logged in and authorized users can read the complaints and files in the complaint-forms graph
+;;
+;; /!\ WARNING /!\
+;;
+;; The name of this Group, `admin`, is used in the dispatcher config as well to shield GET calls to
+;; complaints and files and make sure they are only allowed for authorized users, due to how mu-auth/sparql-parser
+;; works (mu-auth/sparql-parser doesn't not restrain the resource TYPES that can be *read* from the graph, only the
+;; graph itself, which is an issue for this app where some users need to only write and others only read)
 (grant (read)
-  :to-graph (admin)
+  :to-graph (complaint-forms)
   :for-allowed-group "admin")
