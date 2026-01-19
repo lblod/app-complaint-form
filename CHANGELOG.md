@@ -7,6 +7,7 @@
 ```
 drc restart migrations dispatcher complaint-form-email-converter resource
 drc restart database
+drc restart frontend
 ```
 
 ## 2.3.0 (2025-12-01)
