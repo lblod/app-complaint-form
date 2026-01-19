@@ -13,7 +13,7 @@ services:
       - ./config/redirector/:/etc/nginx/conf.d/
 
   frontend:
-    image: lblod/frontend-complaint-form:0.8.1
+    image: lblod/frontend-complaint-form:0.8.2
     labels:
       - "logging=true"
     restart: always
@@ -115,7 +115,7 @@ services:
     logging: *default-logging
 
   complaint-form-email-converter:
-    image: lblod/complaint-form-email-converter-service:1.0.2
+    image: lblod/complaint-form-email-converter-service:1.0.3
     volumes:
       - ./config/complaint-form-email-converter/templates:/config
     labels:
