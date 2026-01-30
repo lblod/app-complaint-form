@@ -2,12 +2,14 @@
 ## Unreleased
 - [DL-7038] Klachtenformulier follow-up: improve conversion to email
 - [DL-6579] sparql-parser added
+- bump deliver-email-service to v1.0.0
 
 ### Deploy instructions
 ```
 drc restart migrations dispatcher complaint-form-email-converter resource
 drc restart database
 drc restart frontend
+drc up -d deliver-email
 ```
 
 ## 2.3.0 (2025-12-01)
