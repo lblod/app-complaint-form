@@ -1,8 +1,9 @@
 # Changelog
-## Unreleased
+## 2.3.1 (2026-01-30)
 - [DL-7038] Klachtenformulier follow-up: improve conversion to email
 - [DL-6579] sparql-parser added
 - bump deliver-email-service to v1.0.0
+- bump frontend [DL-7130]
 
 ### Deploy instructions
 ```
