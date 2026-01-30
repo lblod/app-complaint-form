@@ -3,7 +3,7 @@
 - [DL-7038] Klachtenformulier follow-up: improve conversion to email
 - [DL-6579] sparql-parser added
 - bump deliver-email-service to v1.0.0
-- bump frontend [DL-7130]
+- [DL-7130] bump frontend
 
 ### Deploy instructions
 ```
