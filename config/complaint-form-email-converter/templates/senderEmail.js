@@ -45,7 +45,7 @@ Bijlagen
 ${attachmentsPlainText(attachments)}
 
 Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer).
-Info over de verwerking van uw gegevens leest u hier: binnenland.vlaanderen.be/privacyverklaring-abb.
+Info over de verwerking van uw gegevens leest u hier: https://www.vlaanderen.be/agentschap-binnenlands-bestuur/privacyverklaring.
 
 Hoogachtend
 ABB Vlaanderen`;
@@ -123,7 +123,7 @@ export function senderEmailHtmlContent(form, attachments) {
 <p>
   Het Agentschap Binnenlands Bestuur zal u zo snel als mogelijk verdere informatie sturen over het gevolg dat aan uw klacht wordt gegeven. Meer info hierover vindt u in de rubriek “Wat doet de toezichthoudende overheid met je klacht?” in de klachtenwegwijzer (<a href="https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer" target="_blank">https://lokaalbestuur.vlaanderen.be/klachtenwegwijzer</a>).
   <br>
-  Info over de verwerking van uw gegevens leest u hier: <a href="https://binnenland.vlaanderen.be/privacyverklaring-abb" target="_blank">https://binnenland.vlaanderen.be/privacyverklaring-abb</a>.
+  Info over de verwerking van uw gegevens leest u hier: <a href="https://www.vlaanderen.be/agentschap-binnenlands-bestuur/privacyverklaring" target="_blank">https://www.vlaanderen.be/agentschap-binnenlands-bestuur/privacyverklaring</a>.
 </p>
 <br>
 <p>Hoogachtend</p>
