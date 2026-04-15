@@ -1,5 +1,5 @@
 # Changelog
-## Unreleased
+## 2.4.0 (2026-04-14)
 - [DL-7278] adjust privacy link
 
 ### Deploy instructions
