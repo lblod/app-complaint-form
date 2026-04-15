@@ -1,4 +1,12 @@
 # Changelog
+## Unreleased
+- [DL-7278] adjust privacy link
+
+### Deploy instructions
+```
+drc restart complaint-form-email-converter
+```
+
 ## 2.3.1 (2026-01-30)
 - [DL-7038] Klachtenformulier follow-up: improve conversion to email
 - [DL-6579] sparql-parser added
