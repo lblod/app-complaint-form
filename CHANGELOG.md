@@ -1,4 +1,11 @@
 # Changelog
+## Unreleased
+- Bump acm-login service [DL-7346]
+## Deploy notes
+```
+drc up -d login
+```
+
 ## 2.4.0 (2026-04-14)
 - [DL-7278] adjust privacy link
 
