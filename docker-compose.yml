@@ -115,7 +115,7 @@ services:
     logging: *default-logging
 
   complaint-form-email-converter:
-    image: lblod/complaint-form-email-converter-service:1.0.3
+    image: lblod/complaint-form-email-converter-service:1.1.0
     volumes:
       - ./config/complaint-form-email-converter/templates:/config
     labels:
