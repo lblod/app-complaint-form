@@ -110,6 +110,11 @@
   :for-allowed-group "public"
   :scopes '("http://services.semantic.works/complaint-form-email-converter-service"))
 
+(grant (read write)
+  :to-graph (errors)
+  :for-allowed-group "public"
+  :scopes '("http://services.semantic.works/complaint-form-email-converter-service"))
+
 ;; Logged in and authorized users can read the complaints and files in the complaint-forms graph
 ;;
 ;; /!\ WARNING /!\
