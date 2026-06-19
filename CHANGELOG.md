@@ -1,4 +1,16 @@
 # Changelog
+
+## 2.6.0 (2026-06-19)
+
+- Introduce scopes in blod/complaint-form-email-converter-service [DL-7425]
+
+### Deploy instructions
+
+```
+docker compose restart database
+docker compose up -d complaint-form-email-converter
+```
+
 ## 2.5.0 (2026-06-15)
 - Bump acm-login service [DL-7346]
 ## Deploy notes
