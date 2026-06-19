@@ -33,7 +33,9 @@
   :nfo "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#"
   :ext "http://mu.semte.ch/vocabularies/ext/"
   :foaf "http://xmlns.com/foaf/0.1/"
-  :skos "http://www.w3.org/2004/02/skos/core#")
+  :skos "http://www.w3.org/2004/02/skos/core#"
+  :oslc "http://open-services.net/ns/core#"
+  :nmo "http://www.semanticdesktop.org/ontologies/2007/03/22/nmo#")
 
 (type-cache::add-type-for-prefix "http://mu.semte.ch/sessions/" "http://mu.semte.ch/vocabularies/session/Session")
 
@@ -51,6 +53,13 @@
 (define-graph complaint-forms ("http://mu.semte.ch/graphs/public")
   ("ext:ComplaintForm" -> _)
   ("nfo:FileDataObject" -> _))
+
+(define-graph errors ("http://mu.semte.ch/graphs/error")
+  ("oslc:Error" -> _))
+
+(define-graph email ("http://mu.semte.ch/graphs/system/email")
+  ("nmo:Email" -> _)
+  ("nfo:Folder" -> _))
 
 
 (supply-allowed-group "public")
@@ -79,14 +88,32 @@
 (grant (read)
   :to-graph (public)
   :for-allowed-group "public")
+(grant (read write)
+  :to-graph (public)
+  :for-allowed-group "public"
+  :scopes '("http://services.semantic.works/complaint-form-email-converter-service"))
 
 (grant (read)
   :to-graph (org)
   :for-allowed-group "logged-in-or-impersonating")
 
 (grant (write)
-    :to-graph (complaint-forms)
-    :for-allowed-group "public")
+  :to-graph (complaint-forms)
+  :for-allowed-group "public")
+(grant (read write)
+  :to-graph (complaint-forms)
+  :for-allowed-group "public"
+  :scopes '("http://services.semantic.works/complaint-form-email-converter-service"))
+
+(grant (read write)
+  :to-graph (email)
+  :for-allowed-group "public"
+  :scopes '("http://services.semantic.works/complaint-form-email-converter-service"))
+
+(grant (read write)
+  :to-graph (errors)
+  :for-allowed-group "public"
+  :scopes '("http://services.semantic.works/complaint-form-email-converter-service"))
 
 ;; Logged in and authorized users can read the complaints and files in the complaint-forms graph
 ;;
