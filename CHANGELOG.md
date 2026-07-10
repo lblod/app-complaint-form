@@ -1,4 +1,12 @@
 # Changelog
+## Unreleased
+- bump frontend [DL-7363]
+- 
+### Deploy instructions
+
+```
+docker compose up -d frontend
+```
 
 ## 2.6.0 (2026-06-19)
 
