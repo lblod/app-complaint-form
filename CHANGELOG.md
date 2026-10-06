@@ -1,7 +1,9 @@
 # Changelog
 ## Unreleased
-- bump frontend [DL-7363]
-- 
+- Frontend
+  - [v0.9.0](https://github.com/lblod/frontend-complaint-form/blob/143bc22f4ec92e9f10717c2ab3e2db6f6abf37c3/CHANGELOG.md#v090-2026-10-06) [DL-7612]
+  - [v0.8.4](https://github.com/lblod/frontend-complaint-form/blob/143bc22f4ec92e9f10717c2ab3e2db6f6abf37c3/CHANGELOG.md#v084-2026-07-10) [DL-7363]
+
 ### Deploy instructions
 
 ```
