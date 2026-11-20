@@ -109,7 +109,7 @@ services:
     logging: *default-logging
 
   file:
-    image: semtech/mu-file-service:3.3.2
+    image: semtech/mu-file-service:3.5.3
     volumes:
       - ./data/files:/share
     labels:
