@@ -1,4 +1,6 @@
 # Changelog
+## 2.8.2
+- Bump complain form warning
 ## 2.8.1
 - Fix file service [CVE-2026-132825]
 ## 2.8.0
