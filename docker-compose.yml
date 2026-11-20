@@ -8,7 +8,7 @@ x-logging:
 services:
 
   redirector:
-    image: nginx:1.22.0
+    image: nginx:1.30.7
     volumes:
       - ./config/redirector/:/etc/nginx/conf.d/
     labels:
@@ -136,7 +136,7 @@ services:
     logging: *default-logging
 
   complaint-form-warning:
-    image: lblod/complaint-form-warning-service:1.0.1
+    image: lblod/complaint-form-warning-service:1.1.0
     #NOTE: put something like the following in the overrides
     #environment:
     #  EMAIL_FROM: person@mail.com
