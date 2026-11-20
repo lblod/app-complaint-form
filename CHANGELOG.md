@@ -1,5 +1,11 @@
 # Changelog
-## Unreleased
+## 2.8.0
+- Fix nginx (CVE-2026-123007)
+- Bump warning service:
+  - Configure timezone for start of business day.
+  - See also [DL-7649]
+- Added restart policies
+
 ## 2.7.1 (2026-10-21)
 - [DL-7648] Fix timeouts on connection bursts of the same connection
   - Some services were bumped
