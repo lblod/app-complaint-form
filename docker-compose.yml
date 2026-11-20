@@ -136,7 +136,7 @@ services:
     logging: *default-logging
 
   complaint-form-warning:
-    image: lblod/complaint-form-warning-service:1.1.0
+    image: lblod/complaint-form-warning-service:1.2.0
     #NOTE: put something like the following in the overrides
     #environment:
     #  EMAIL_FROM: person@mail.com
